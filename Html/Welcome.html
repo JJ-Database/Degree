@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            header{
+                background-color: aqua;
+                color:azure;
+                font-family: 'Courier New', Courier, monospace;
+                align-items: center;
+                justify-content: center;
+            }
+            header h1{
+                align-items: center;
+                text-align: center;
+            }
+            main{
+                background-color: antiquewhite;
+                border:.1cm  solid;
+                border-color: blue;
+                margin: 0cm;
+
+            }
+            main  b, h1, h2{
+                margin-left: 0.5cm;
+                margin-top: 0.5cm;
+            }
+            main b{
+                font-size:30px;
+                color: brown;
+            }
+            form{
+                margin-top: 1cm;
+                /*border: .1cm black solid;*/
+            }
+            form label,input{
+                margin-left: 0.5cm;
+            }
+            div.FirstRow_Table{
+                width: max-content;
+                height: 180px;
+                position: relative;
+            }
+
+            div.Name_Form{
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                border: 1px black solid;
+                width: 200px;
+                height: 150px;
+            }
+            div.Gender_Form{
+                position: absolute;
+                top: 2px;
+                left: 300px;
+                width: 200px;
+                height: 80px;
+                border: 1px black solid;
+            }
+            div.Vehicle_Form{
+                position: absolute;
+                top: 2px;
+                left: 550px;
+                width: 200px;
+                height: 80px;
+                border: 1px black solid;
+            }
+        </style>
+        <title>Welocme Page!!!</title>
+    </head>
+    <body>
+        <header>
+            <h1>You're welcome </h1>    
+        </header>
+        <main>
+            <b>Big Promotion Only Available on every Tuesday.</b>
+            <h1>Body Shampoo<h1>
+             <h2><del>RM59.99</del> RM 29.99</h2>   
+            
+        </main>
+        <form>
+            <fieldset>
+                <div class="FirstRow_Table">
+                    <div class="Name_Form">
+                    <legend>Register Form</legend>
+                    <label for="fname">First name:</label><br>
+                    <input type="text" id="fname" name="fname" value="John"><br>
+                    <label for="lname">Last name:</label><br>
+                    <input type="text" id="lname" name="lname" value="Doe"><br><br>
+                    <input type="submit" value="Submit"><br><br>
+                    </div>
+
+                    <div class="Gender_Form">
+                        <label>Gender</label><br>
+                        <input type="radio" id="Male" name="fav_language" value="Male">
+                        <label for="Male">Male</label><br>
+                        <input type="radio" id="Female" name="fav_language" value="Female">
+                        <label for="Female">Female</label><br>
+                    </div>
+                
+                    <div class="Vehicle_Form">
+                        <input type="checkbox" id="vehicle1" name="vehicle1" alue="Bike">
+                        <label for="vehicle1"> I have a bike</label><br>
+                        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+                        <label for="vehicle2"> I have a car</label><br>
+                        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+                        <label for="vehicle3"> I have a boat</label>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </body>
+</html>

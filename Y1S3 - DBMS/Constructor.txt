@@ -1,0 +1,7 @@
+create table constructor(
+projectID varchar(10) not null,
+icNumber number (5) not null,
+specialization varchar(10),
+primary key(ProjectID),
+foreign key (icNumber) references person(icNumber)
+);

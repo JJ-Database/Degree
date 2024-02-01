@@ -1,0 +1,25 @@
+cmp al,'1'
+je record
+
+Grooming1:
+	mov al,groomingA
+	mov CurrentItem,al
+
+	mov eax,groomingG
+	mov CurrentPrice,ebx
+
+	mov eax,grooming15
+	mov CurrentQuantity,edx
+
+	jmp record_menu
+
+
+record_menu proc
+	mov ecx,RecordCount
+	lea esi,RecordPrice[]
+	
+
+	ret
+record_menu endp
+
+	

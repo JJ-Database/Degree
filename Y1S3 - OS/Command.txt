@@ -1,0 +1,144 @@
+/==================Practical 1===================/
+pwd = list current directory
+cd
+ls
+touch file1 (create file without content)
+cat file2 (view content)
+cat > file2 (add content)
+cat >> file2 (append content)
+cat file1 file2 > file3 (copy content file1&file2 paste into file3)
+more file1
+less file1
+head -5 file1
+tail -3 file1
+/===============================================/
+
+/==================Practical 2===================/
+
+recursive = all sub folder and sub files
+mv  = move and rename
+ls - li = show inode
+ln orignalfile hardlinkfile  = create hardlink
+ln -s origianlfile softlink  = create soft link
+rm = delete file/folder
+cp = copy/backup file/folder
+cp -R xxx xxxx = copy all contents
+/===============================================/
+
+/==================Practical 3===================/
+rm  = delete file
+rm -r = delete folder and content
+wildcard ?, [..], *
+find path criteria action
+find ~ -name file1
+find ~ -type f
+find ~ -size +10K
+find ~ -name file1 -exec cat {} \;
+grep "text" filename
+egrep
+wc
+diff file1 file2
+gzip
+gunzip -l
+gunzip
+bzip2
+bunzip2
+tar -cf
+tar -tf
+tar -xf
+tar -xf (extract 1 file)
+/===============================================/
+
+/==================Practical 4===================/
+
+id xxxx (id bobby)
+groups xxxx
+cat /etc/passwd (contain user info)
+    /etc/shadow (encrypted password)
+    /etc/group (contain group info)
+
+sudo useadd -m bobby   (-m is create user home directory)
+sudo passwd   (create password)
+su - bobby   (switch user)   
+exit (logout user ac)
+sudo usermod -u 8888 bobby   (modify user setting)
+sudo userdel -r bobby
+/===============================================/
+
+/==================Practical 5===================/
+
+groupadd -g 200 sports
+tail -5 /etc/group
+groupmod -g 222 sports
+gpasswd sports
+newgrp sports (change to effective group)
+chgrp   (change group for previous file/folder that created)
+
+rwx rwx rwx
+r = read
+w = write/edit/change
+x = execute
+
+chmod ugo+rwx filename
+chmod ug+rwx,o+rw filename
+
+umask - change the default permission
+chown bobby filename  (change owndership)
+/===============================================/
+
+
+whatis 
+--help
+man -k
+ln - link
+ln <file> Hardfile - Link with the hardlink file   [actual size with ori file, independent file][Still allow to use for hard file]
+ln -s <file> Softfile - Link with the Softlink File 
+[Is a shortcut for a file, pointer to the file][Cannot use while ori file was delete]
+ls -li 
+rm = remove directory/file
+rm -r = remove folder
+cp = copy/file/backup
+cp -R ¬/Desktop ¬/backup = copy recursive directory
+
+
+find - <file> <action> 
+find ~ -name "f*" -print
+Action = -print
+find ~ -name file1
+find ~ -type f
+find ~ -size +10k
+find ~ -name file1 -exec cat {} \;
+
+wc = word count
+wc -w = word only counts
+
+Compression
+gzip = gunzip
+bzip2 = bunzip2
+
+gzip <file>
+gunzip <file.gz>
+
+bzip2 <file>
+bunzip2 <file.bz2>
+
+tar -cf joshua.tar * = create the archieve file
+tar -tf joshua.tar * = list archieve file
+tar -xf joshua.tar = extract file
+
+
+
+tail -5  /etc/passwd
+sudo passwd
+sudo -bobby (Switch User)
+
+id xxxx (id bobby)
+groups xxxx
+cat /etc/passwd
+    /etc/shadow
+    /etc/group
+
+sudo useadd -m <Name> - Add a new user
+exit (logout user ac)
+sudo usermod -u 8888 <Name> - Modify
+sudo userdel -r <Name> - Delete

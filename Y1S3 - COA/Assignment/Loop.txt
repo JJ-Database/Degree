@@ -1,0 +1,30 @@
+INCLUDE Irvine32.inc
+.data
+	var1 dword 700,200,300,400
+
+.code
+	main proc
+	mov esi,0
+	mov esi, offset var1
+	mov ecx, lengthof var1
+
+Program:
+		xor eax,eax
+		jz Display
+		add esi, type esi
+
+
+
+	loop Program
+
+
+	exit
+	Display:
+		mov eax,dword ptr [esi]
+	    Call WriteDec
+	exit
+
+
+
+	main endp
+END main

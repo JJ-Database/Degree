@@ -1,0 +1,9 @@
+See back the table whether which one is least or last using of process
+look left hand side
+keep will not occur page fault
+
+155678
+
+F1 111177
+F2 -55558
+F3 ---666

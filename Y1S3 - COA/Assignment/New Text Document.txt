@@ -1,0 +1,455 @@
+INCLUDE Irvine32.inc
+.data
+	MAX = 20
+	header1 byte "                                       =================================================================                   ",0
+	header2 byte "                                                               Cat & Dog Pet Shop                                          ",0
+	header3 byte "                                       =================================================================                   ",0
+
+	;main menu
+	menu byte "                                                 Main Menu:",0
+	menu1 byte "                                                 1. Pet Products",0
+	menu2 byte "                                                 2. Pet Grooming",0
+	menu3 byte "                                                 3. Pet Hotel",0
+	menu4 byte "                                                 Enter your choice: ",0
+	menu5 byte	?
+
+	;product menu
+	product byte "                                                 Pet Products:",0
+	product1 byte "                                                 1. Food",0
+	product2 byte "                                                 2. Toy",0
+	product3 byte "                                                 3. Accessories",0
+	product4 byte "                                                 Enter your choice: ",0
+	product5 byte	?
+
+	;grooming menu
+	grooming byte "					Pet Grooming:",0
+	grooming1 byte "					Basic Service: Shampoo  + Blow Dry + Nail Ears",0
+	grooming2 byte "					Special Service: Shampoo + Blowdry + Nail + Ears + Massage + Cologne + Hair Cut",0
+	grooming3 byte "					Small: < than 10kg",0
+	grooming4 byte "					Medium: 11 - 26kg",0
+	grooming5 byte "					Large: 27 - 45kg",0
+	grooming6 byte "					1. Basic grooming(small)  RM 40",0
+	grooming7 byte "					2. Basic grooming(medium) RM 75",0
+	grooming8 byte "					3. Basic grooming(large)  RM 105",0
+	grooming9 byte "					4. Special grooming(small) RM 95",0
+	grooming10 byte "					5. Special grooming(medium) RM 180",0
+	grooming11 byte "					6. Special grooming(large) RM 195",0
+	grooming12 byte "					Enter your choice: ",0
+	grooming13 byte	?
+	grooming14 byte "					Quantity: ",0
+	grooming15 dword 30 Dup(0)			;Quantity
+	grooming16 dword 30 Dup(0)			;Price
+	grooming17 byte 30 Dup(?)			;Product Name
+	grooming18 dword 30 Dup(0)			;Count
+	groomingA byte "Basic grooming(small)",0
+	groomingB byte "Basic grooming(medium)",0
+	groomingC byte "Basic grooming(large)",0
+	groomingD byte "Special grooming(small)",0
+	groomingE byte "Special grooming(medium)",0
+	groomingF byte "Special grooming(large)",0
+	
+
+	;hotel_menu
+	hotel byte "                                                 Pet Hotel:",0
+	hotel1 byte "                                                 1. Puppy/Kitten RM30/day",0
+	hotel2 byte "                                                 2. Adult Dog/Cat RM40/day",0
+	hotel3 byte "                                                 3. Large Breed Dog RM60/day",0
+	hotel4 byte "                                                 Enter your choice: ",0
+	hotel5 byte	?
+	
+	;food menu
+	food byte "                                                 Pet Food:",0
+	food1 byte "                                                 1. Royal Canin 12kg (Dog) RM350.00",0
+	food2 byte "                                                 2. Orijen 11.4kg (Dog) RM468.00",0
+	food3 byte "                                                 3. Burp 12kg (Adult Dog) RM288.00",0
+	food4 byte "                                                 4. Mhims 375g (Puppy) RM17.50",0
+	food5 byte "                                                 5. Canagan 6kg (Small Breed Dog) RM282.00",0
+	food6 byte "                                                 6. Royal Canin 12.2kg (Cat) RM87.00",0
+	food7 byte "                                                 7. Cindys Recipe 13kg (Cat) RM208.90",0
+	food8 byte "                                                 8. Science Diet 3.2kg (Adult Cat) RM157.30",0
+	food9 byte "                                                 9. Whiskas 3kg (Cat) RM39.00",0
+	food10 byte "                                                 10. Acana 1.8kg (Grasslands Cat) RM117.00",0
+	food11 byte "                                                 Enter purchase item: ",0
+	food12 byte	?
+
+	;toy_menu
+	toy byte "                                                 Pet Toys:",0
+	toy1 byte "                                                 1. Cat Tree",0
+	toy2 byte "                                                 2. Plush Toy",0
+	toy3 byte "                                                 3. Chew Toy",0
+	toy4 byte "                                                 4. Interactive Toy",0
+	toy5 byte "                                                 5. Ball Toy",0
+	toy6 byte "                                                 Enter your choice: ",0
+	toy7 byte	?
+
+	;accessory_menu
+	acc byte "                                                 Pet Accessories:",0
+	acc1 byte "                                                 1. Litter Tray (Cat) RM95.00",0
+	acc2 byte "                                                 2. Elasticised Litter Tray Liners - 15pcs (Cat) RM32.00",0
+	acc3 byte "                                                 3. Litter Scoop Micro (Cat) RM6.20",0
+	acc4 byte "                                                 4. No More Litterbox Odours - Powder 500g (Cat/Dog) RM41.90",0
+	acc5 byte "                                                 5. Pet Toilet with Mesh Plate (Dog) RM80",0
+	acc6 byte "                                                 6. Wee Pads 25pcs - Large (Dog) RM68.90",0
+	acc7 byte "                                                 7. Wee Pads 100pcs - Small (Dog) RM68.90",0
+	acc8 byte "                                                 8. Adjustable Safety Collar with Bell (Cat/Dog) RM1.50",0
+	acc9 byte "                                                 9. Safety Healing Cone Protection (Dog) RM8.00",0
+	acc10 byte "                                                 10. Round Cushion (Cat/Dog) RM15.30",0
+	acc11 byte "                                                 Enter your choice: ",0
+	acc12 byte	?
+
+	Loop1 byte "                                                 Do you want to countinue purchase? (Y/N)",0
+	LoopA byte ?
+	Loop2 byte "                                                 Invalid Input Command. Pls Try again......"
+
+	purchasing byte "                                       =================================================================                   ",0
+	purchasing1 byte "                                                                 Purchase Page                                             ",0
+	purchasing2 byte "                                       =================================================================                   ",0
+	;purchasing3
+	;purchasing4
+	;purchasing5
+	;purchasing6
+
+
+
+.code
+	header proc
+		Call Crlf
+		lea edx,header1
+		Call WriteString
+		Call Crlf
+		lea edx,header2
+		Call WriteString
+		Call Crlf
+		lea edx,header3
+		Call WriteString
+		Call Crlf
+
+	ret
+	header endp
+		
+	main_menu proc
+		lea edx,menu
+		Call WriteString
+		Call Crlf
+		lea edx,menu1
+		Call WriteString
+		Call Crlf
+		lea edx,menu2
+		Call WriteString
+		Call Crlf
+		lea edx,menu3
+		Call WriteString
+		Call Crlf
+		lea edx,menu4
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov menu5,al
+		Call Crlf
+
+		cmp menu5, '1'
+		je product_menu
+
+		cmp menu5, '2'
+		je grooming_menu
+
+		cmp menu5, '3'
+		je hotel_menu
+	ret
+	main_menu endp
+
+	product_menu proc
+		Call Crlf
+		Call Crlf
+
+		lea edx,product
+		Call WriteString
+		Call Crlf
+		lea edx,product1
+		Call WriteString
+		Call Crlf
+		lea edx,product2
+		Call WriteString
+		Call Crlf
+		lea edx,product3
+		Call WriteString
+		Call Crlf
+		lea edx,product4
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov product5,al
+		Call Crlf	
+
+		cmp product5, '1'
+		je food_menu
+
+		cmp product5, '2'
+		je toy_menu
+
+		cmp product5, '3'
+		je accessory_menu
+	ret
+	product_menu endp
+
+	grooming_menu proc
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming
+		Call WriteString
+		Call Crlf
+		lea edx,grooming1
+		Call WriteString
+		Call Crlf
+		lea edx,grooming2
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming3
+		Call WriteString
+		Call Crlf
+		lea edx,grooming4
+		Call WriteString
+		Call Crlf
+		lea edx,grooming5
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming6
+		Call WriteString
+		Call Crlf
+		lea edx,grooming7
+		Call WriteString
+		Call Crlf
+		lea edx,grooming8
+		Call WriteString
+		Call Crlf
+		lea edx,grooming9
+		Call WriteString
+		Call Crlf
+		lea edx,grooming10
+		Call WriteString
+		Call Crlf
+		lea edx,grooming11
+		Call WriteString
+		Call Crlf
+		lea edx,grooming12
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov grooming13,al
+		Call Crlf	
+
+		xor bl,bl
+		mov bl,grooming13
+		.IF bl == '1'
+			mov esi,OFFSET grooming17			;Point the address
+			mov al,groomingA		;1 byte Register
+			mov byte ptr [esi],al
+			mov edx,[esi]
+			Call WriteString
+		.ENDIF
+
+
+	ret
+	grooming_menu endp
+
+	hotel_menu proc
+		Call Crlf
+		Call Crlf
+
+		lea edx,hotel
+		Call WriteString
+		Call Crlf
+		lea edx,hotel1
+		Call WriteString
+		Call Crlf
+		lea edx,hotel2
+		Call WriteString
+		Call Crlf
+		lea edx,hotel3
+		Call WriteString
+		Call Crlf
+		lea edx,hotel4
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov hotel5,al
+		Call Crlf	
+	ret
+	hotel_menu endp
+
+	food_menu proc
+		Call Crlf
+		Call Crlf
+
+		lea edx,food
+		Call WriteString
+		Call Crlf
+		lea edx,food1
+		Call WriteString
+		Call Crlf
+		lea edx,food2
+		Call WriteString
+		Call Crlf
+		lea edx,food3
+		Call WriteString
+		Call Crlf
+		lea edx,food4
+		Call WriteString
+		Call Crlf
+		lea edx,food5
+		Call WriteString
+		Call Crlf
+		lea edx,food6
+		Call WriteString
+		Call Crlf
+		lea edx,food7
+		Call WriteString
+		Call Crlf
+		lea edx,food8
+		Call WriteString
+		Call Crlf
+		lea edx,food10
+		Call WriteString
+		Call Crlf
+		lea edx,food11
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov food12,al
+		Call Crlf	
+
+	ret
+	food_menu endp
+
+	toy_menu proc
+		Call Crlf
+		Call Crlf
+
+		lea edx,toy
+		Call WriteString
+		Call Crlf
+		lea edx,toy1
+		Call WriteString
+		Call Crlf
+		lea edx,toy2
+		Call WriteString
+		Call Crlf
+		lea edx,toy3
+		Call WriteString
+		Call Crlf
+		lea edx,toy4
+		Call WriteString
+		Call Crlf
+		lea edx,toy5
+		Call WriteString
+		Call Crlf
+		lea edx,toy6
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov toy7,al
+		Call Crlf	
+
+	ret
+	toy_menu endp
+
+	accessory_menu proc
+		Call Crlf
+		Call Crlf
+
+		lea edx,acc
+		Call WriteString
+		Call Crlf
+		lea edx,acc1
+		Call WriteString
+		Call Crlf
+		lea edx,acc2
+		Call WriteString
+		Call Crlf
+		lea edx,acc3
+		Call WriteString
+		Call Crlf
+		lea edx,acc4
+		Call WriteString
+		Call Crlf
+		lea edx,acc5
+		Call WriteString
+		Call Crlf
+		lea edx,acc6
+		Call WriteString
+		Call Crlf
+		lea edx,acc7
+		Call WriteString
+		Call Crlf
+		lea edx,acc8
+		Call WriteString
+		Call Crlf
+		lea edx,acc10
+		Call WriteString
+		Call Crlf
+		lea edx,acc11
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov acc12,al
+		Call Crlf	
+
+	ret
+	accessory_menu endp
+
+	looping proc
+			Call Crlf
+			Call Crlf
+			lea edx,Loop1
+			Call WriteString
+			Call ReadChar
+			mov LoopA,al
+			Call Crlf
+			Call Crlf
+
+			cmp LoopA,'N'
+			je stop
+			cmp LoopA,'n'
+			je stop
+
+			cmp LoopA,'Y'
+			je main_menu
+			cmp LoopA,'y'
+			je main_menu
+
+			lea edx,loop2
+			Call WriteString
+			Call Crlf
+			Call Crlf
+
+			jne looping
+
+	ret
+	looping endp
+
+	stop proc
+		mov ecx,1
+	ret
+	stop endp
+
+	main proc
+	;=======================================
+	;               Loop Function
+	;=======================================
+	mov ecx ,5
+	Purchase:
+		mov ecx,5
+		INVOKE header
+		INVOKE main_menu
+		INVOKE looping
+
+		Loop Purchase
+	
+	exit
+	main endp
+END main

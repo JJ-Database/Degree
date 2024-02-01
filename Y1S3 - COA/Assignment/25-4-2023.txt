@@ -1,0 +1,167 @@
+INCLUDE Irvine32.Inc
+
+.data
+	;=======================Global Variable==========================
+	max = 20
+	;===============================================================
+	header1 byte "====================================================",0
+	header2 byte "               Delivery Corrier Service             ",0
+	header3 byte "====================================================",0
+
+	Case1 byte "A.SignUp",0
+	Case2 byte "B.LogIn ",0
+	Case3 byte "Enter Your Option: ",0
+	Case4 byte ?
+	
+	CaseA1 byte "============================================",0
+	CaseA2 byte "               Sign Up Interface            ",0
+	CaseA3 byte "============================================",0
+	CaseA4 byte "Username:",0
+	CaseA5 db MAX+1 DUP(?)	;String null
+	CaseA6 byte "Password:",0
+	CaseA7 db MAX+1 DUP(?)	;String null
+	;=======================================
+	;           Store File Process
+	;=======================================
+	filename db "record.txt", 0				;Write into  the file called record.txt
+    separator db ";", 0						;Format seperate
+	
+	CaseB1 byte "============================================",0
+	CaseB2 byte "               Log In Interface             ",0
+	CaseB3 byte "============================================",0
+	CaseB4 byte "Username:",0
+	CaseB5 db MAX+1 DUP(?)	;String null
+	CaseB6 byte "Password:",0
+	CaseB7 db MAX+1 DUP(?)	;String null
+
+	CaseError1 byte "Input Error",0
+
+.code
+	main proc 
+
+	header:						;Header Design
+		lea edx,header1
+		Call WriteString
+		Call Crlf
+		lea edx,header2
+		Call WriteString
+		Call Crlf
+		lea edx,header3
+		Call WriteString
+		Call Crlf
+
+	LogIn:
+		lea edx,Case1
+		Call WriteString
+		Call Crlf
+		lea edx,Case2
+		Call WriteString
+		Call Crlf
+		lea edx,Case3
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov Case4,al
+		Call Crlf
+
+		;=============Jump A===========
+		cmp  Case4, 'A'				;Compare A
+		je CaseA
+		;===============================
+
+		;=============Jump B===========
+		cmp  Case4, 'B'				;Compare B
+		je CaseB
+		;===============================
+
+		;=============Jump Error==========
+		jne CaseError
+		;=================================
+
+
+		exit ;exit main program
+
+	;==============Case A===========
+	CaseA:
+		lea edx,CaseA1
+		Call WriteString
+		Call Crlf
+		lea edx,CaseA2
+		Call WriteString
+		Call Crlf
+		lea edx,CaseA3
+		Call WriteString
+		Call Crlf
+
+		;===========Print Username==========
+		lea edx,CaseA4
+		Call WriteString
+
+		;===========Read UserName===========
+		mov edx,OFFSET CaseA5
+		mov ecx, MAX
+		call ReadString
+
+		;===========Print Password==========
+		lea edx,CaseA6
+		Call WriteString
+		;==================================
+
+		;===========Read Password===========
+		mov edx,OFFSET CaseA7
+		mov ecx, MAX
+		call ReadString
+		Call Crlf
+		;==================================
+
+
+	exit ;exit caseA
+	;==================================
+
+	;==============Case B==============
+	CaseB:
+		lea edx,CaseB1
+		Call WriteString
+		Call Crlf
+		lea edx,CaseB2
+		Call WriteString
+		Call Crlf
+		lea edx,CaseB3
+		Call WriteString
+		Call Crlf
+		;===========Print Username==========
+		lea edx,CaseB4
+		Call WriteString
+
+		;===========Read UserName===========
+		mov edx,OFFSET CaseB5
+		mov ecx, MAX
+		call ReadString
+
+		;===========Print Password==========
+		lea edx,CaseB6
+		Call WriteString
+		;==================================
+
+		;===========Read Password===========
+		mov edx,OFFSET CaseB7
+		mov ecx, MAX
+		call ReadString
+		Call Crlf
+		;==================================
+
+
+	exit ;exit caseB
+	;===============================
+
+	;==============Case Error=========
+	CaseError:
+		lea edx,CaseError1
+		Call WriteString
+		Call Crlf
+	exit	;exit CaseError
+	;=================================
+
+	exit
+	main endp						;Main Function ned here
+end main

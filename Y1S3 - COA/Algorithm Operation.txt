@@ -1,0 +1,17 @@
+INCLUDE irvine32.inc
+.code	;declare code segment
+	main proc	;MAIN Function strats here --> main()
+	MOV AX, 0010	;move 10
+	MOV BX, 0020	;move 20
+	MOV CX, 0030	;move 30
+	ADD AX, BX	;add AX value with the BX value and store result in AX
+	INC BX	;increase value by 1
+	SUB CX, AX	;subtract  AX from CX in CX
+	DEC CX	;Decrease value by 1 
+
+	exit
+	main endp
+
+END main
+
+

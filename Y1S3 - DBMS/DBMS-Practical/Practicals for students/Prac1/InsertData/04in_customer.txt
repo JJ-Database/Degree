@@ -1,0 +1,14 @@
+insert into customer values(1001,'Ali','aBc@tarc.edu.my',null,null,'M');
+
+insert into customer values(1002,'Abu','abc@tarc.edu.my',null,null,'M');
+
+insert into customer values(1003,'Alice','s123@tarc.edu.my',null,null,'F');
+
+insert into customer values(1004,'Mary','a123@tarc.edu.my',null,null,'F');
+
+
+// SELECT * FROM customer;
+// set linesize 100
+// set pagesize 20
+
+

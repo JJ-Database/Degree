@@ -1,0 +1,87 @@
+//========================================================================================================================================
+                    //add new dentist
+                    Dentist [] dentist = new Dentist [20];
+                    //dentist[0] = new Dentist (001,"Joshua","Chew","03/09/2003","Tri Pinnacle","chew@gmailcom","Senior Doctor","D111PNG001","01/03/2022","Master",10,120.20,20000.00);
+                    System.out.println("Add new dentist");
+                    System.out.println("============================");
+                    System.out.println("Enter the First Name: ");
+                    String firstName = scan.nextLine();
+                    System.out.println("Enter the Last Name: ");
+                    String lastName = scan.nextLine();
+                    //System.out.println("Enter the gender: ");
+                    //char gender = scan.next().charAt(0);
+                    char gender = ' ';
+                    while (gender != 'M' && gender != 'F') {
+                        System.out.print("Enter Gender (M/F): ");
+                        String genderStr = scan.nextLine();
+                        if (genderStr.length() == 1) {
+                            gender = genderStr.charAt(0);
+                        }
+                        if (gender != 'M' && gender != 'F') {
+                            System.out.println("Invalid gender. Please enter M or F.");
+                        }
+                    }
+                    LocalDate dob = null;
+                    
+                    while (dob == null) {
+                        System.out.print("Enter the Date of Birth (dd/MM/yyyy): ");
+                        String dobStr = scan.nextLine();
+                        try {
+                            dob = LocalDate.parse(dobStr, formatter);
+                        } 
+                        catch (DateTimeParseException e) {
+                            System.out.println("Invalid date format. Please enter date in the format dd/MM/yyyy.");
+                        }
+                    }
+                    System.out.println("Enter the address: ");
+                    String address = scan.nextLine();
+                    //System.out.println("Enter the Email: ");
+                    //String email = scan.nextLine();
+                    String email = null;
+                    while (email == null) {
+                        System.out.print("Enter Email: ");
+                        String emailStr = scan.nextLine();
+                        if (emailStr.matches("\\b[\\w.%-]+@[-.\\w]+\\.[A-Za-z]{2,4}\\b")) {
+                            email = emailStr;
+                        } else {
+                            System.out.println("Invalid email format. Please enter a valid email address.");
+                        }
+                    }
+                    //System.out.println("Enter the Phone Number: ");
+                    //String phoneNumber = scan.nextLine();
+                    String phoneNumber = "";
+                    while (phoneNumber.equals("")) {
+                        System.out.print("Enter Phone Number (01x-xxxxxxxx or 01x-xxxxxxx): ");
+                        phoneNumber = scan.nextLine();
+                        if (!phoneNumber.matches("01\\d-(\\d{7}|\\d{6})")) {
+                            System.out.println("Invalid phone number format. Please enter phone number in the format 01x-xxxxxxxx or 01x-xxxxxxx.");
+                            phoneNumber = "";
+                        }
+                    }
+                    System.out.println("Enter the Current Status: ");
+                    String currentStatus = scan.nextLine();
+                    System.out.println("Enter the License Number: ");
+                    String licenseNumber = scan.nextLine();
+                    LocalDate hireDate = null;
+                    while ( hireDate == null) {
+                        System.out.print("Enter the hire date (dd/MM/yyyy): ");
+                        String hireDateStr = scan.nextLine();
+                        try {
+                            hireDate = LocalDate.parse(hireDateStr, formatter);
+                        } 
+                        catch (DateTimeParseException e) {
+                            System.out.println("Invalid date format. Please enter date in the format dd/MM/yyyy.");
+                        }
+                    }
+                    System.out.println("Enter the Education Level: ");
+                    String educationLevel = scan.nextLine();
+                    System.out.println("Enter the Specializations: ");
+                    String specializations = scan.nextLine();
+                    System.out.println("Enter the Year Of Experience: ");
+                    int yearOfExperience = scan.nextInt();
+                    System.out.println("Enter the Work hour Per Week: ");
+                    double workHourPerWeek = scan.nextDouble();
+                    System.out.println("Enter the Monthly Salary: ");
+                    double monthlySalary = scan.nextDouble();
+                    dentist[0] = new Dentist(firstName,lastName,dob,gender,phoneNumber,address,email,hireDate,educationLevel,yearOfExperience,workHourPerWeek,monthlySalary,specializations,currentStatus,licenseNumber); 
+                    //========================================================================================================================================

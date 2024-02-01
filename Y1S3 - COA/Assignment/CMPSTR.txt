@@ -1,0 +1,58 @@
+Include Irvine32.inc
+.data
+string1 BYTE "hello",0
+string2 BYTE "hello",0
+
+.code
+    equal proc
+        mov eax,1
+        call writeDec
+    ret
+    equal endp
+    s1_larger proc
+        mov eax,2
+        call writeDec
+    ret
+    s1_larger endp
+
+    s1_smaller proc
+        mov eax,3
+        call writeDec
+    ret
+    s1_smaller endp
+    main proc
+       INVOKE Str_compare,
+              ADDR string1,
+              ADDR string2
+
+       je  equal      ;jump if string1 = string2
+       ja  s1_larger  ;jump if string1 > string2
+       jb  s1_smaller ;jump if string1 < string2
+
+       exit
+    main endp
+end main
+;===========================================================
+.IF edx == "MBB"
+				lea edx,paymentoptAH
+				Call WriteString
+				Call Crlf
+.ENDIF
+
+
+;===========================================================
+		mov ecx,8
+		mov esi,0
+		mov edi,0
+		mov edx,0
+		Bank_Validation:
+			lea edi,paymentcmpBank[esi]
+			mov eax,edi
+			mov paymentdcsBank,al
+			INVOKE Str_compare,
+					ADDR paymentoptAH,
+					ADDR [paymentdcsBank]
+			je validBank
+			INC esi
+			loop Bank_Validation
+		

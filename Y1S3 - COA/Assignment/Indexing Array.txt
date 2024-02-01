@@ -1,0 +1,18 @@
+		mov ecx, 20
+		Print_Payment:
+			lea edx,RecordItem
+			Call WriteString
+
+			lea eax,RecordPrice
+			Call WriteString
+
+			lea eax,RecordQuantity
+			Call WriteString
+
+			lea eax,RecordSubtotal
+			Call WriteString
+			Loop Print_Payment
+		
+		exit
+	ret
+	payment_menu endp

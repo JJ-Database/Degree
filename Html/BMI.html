@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <section>
+            <form name="bmi" class="bmi" id="bmi_form">
+                <legend>Bmi Calculator</legend>
+                <fieldset>
+                    <div class="Name">
+                        <label>Name:</label>
+                        <input type="text">
+                    </div>
+                    <br>
+                    <div class="Gender">
+                        <label>Gender:</label>
+                        <select>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="Gender">
+                        <label>Class:</label>
+                        <input type="text" list="class">
+                        <datalist name="class" id="class">
+                            <option>Premium</option>
+                            <option>Gold</option>
+                            <option>Silver</option>
+                            <option>Bonanza</option>
+                        </datalist>
+                    </div>
+                    <div class="Weight" id="Weight">
+                        <label>Weight</label>
+                        <input type="text">
+                    </div>
+                    <div class="Height" id="Height">
+                        <label>Height</label>
+                        <input type="text">
+                    </div>
+                    <div>
+                        <textarea class="result" id="result" placeholder="Your Result will be over here."></textarea>
+                        <p id="results">Here</p>
+                    </div>
+                    
+                    <div class="button">
+                        <input type="button" value="Confirm" onclick="confirm()">
+                        <input type="button" value="Reset" onclick="cancel()">
+                        <input type="button" value="Calculate" onclick="calculate()">
+                    
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    </body>
+</html>

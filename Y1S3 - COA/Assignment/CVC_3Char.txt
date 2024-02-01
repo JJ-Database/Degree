@@ -1,0 +1,2855 @@
+INCLUDE Irvine32.inc
+.data
+
+	;-------------------------------------- login ---------------------------------------
+	user_start_address dword 0
+	password_start_address dword 6
+	username_input BYTE 6 DUP(?),0
+	password_input byte 8 DUP(?),0
+	Dusername_input byte "                                                 Enter username (5 characters only): ",0
+	Dpassword_input byte "                                                 Enter Password (8 characters only): ",0
+	Dloginsuccess byte "                                                 Login successful !!!",0
+	Dnothisuser byte "                                                 Login failed !!!",0
+	Space byte "                                                 ",0
+	loginstatus word 0
+
+
+	;-------------------------------------- header --------------------------------------
+	MAX = 20
+	header1 byte "                                       =================================================================                   ",0
+	header2 byte "                                                               Cat & Dog Pet Shop                                          ",0
+	header3 byte "                                       =================================================================                   ",0
+
+	;-------------------------------------- login & sign up --------------------------------------
+	;user menu - choose to login or sign up
+    user byte "                                                 Login for Staff/ Guest Mode",0
+    user1 byte "                                                 1. Login",0
+    user2 byte "                                                 2. Guest mode",0
+    user3 byte "                                                 Enter your choice: ",0
+    user4 byte  ?
+
+	;-------------------------------------- read file --------------------------------------
+	BUFMAX = 99999
+	fileName BYTE "userFile.txt",0
+	user_file   Byte   BUFMAX+1 DUP(?)
+	bytesRead Dword ?
+	fileHandle handle ?
+
+	filemenuName BYTE "menuName.txt",0
+	menuname   Byte   BUFMAX+1 DUP(?)
+	menubytesRead Dword ?
+	menufileHandle handle ?
+
+	;-------------------------------------- main menu --------------------------------------
+	;main menu - display main menu of pet shop
+	menu byte "                                                 Main Menu:",0
+	menu1 byte "                                                 1. Pet Products",0
+	menu2 byte "                                                 2. Pet Grooming",0
+	menu3 byte "                                                 3. Pet Hotel",0
+	menu4 byte "                                                 Enter your choice: ",0
+	menu5 byte	?
+
+	;-------------------------------------- products --------------------------------------
+	;product menu - display pet products in 2 catagories
+	product byte "                                                 Pet Products:",0
+	product1 byte "                                                 1. Food",0
+	product2 byte "                                                 2. Toy",0
+	product3 byte "                                                 3. Accessories",0
+	product4 byte "                                                 Enter your choice: ",0
+	product5 byte	?
+
+	;-------------------------------------- gromming --------------------------------------
+	;grooming menu - display pet grooming menu
+	grooming byte "					         Pet Grooming:",0
+	grooming1 byte "					         Basic Service: Shampoo  + Blow Dry + Nail Ears",0
+	grooming2 byte "					         Special Service: Shampoo + Blowdry + Nail + Ears + Massage + Cologne + Hair Cut",0
+	grooming3 byte "					         Small: < than 10kg",0
+	grooming4 byte "					         Medium: 11 - 26kg",0
+	grooming5 byte "					         Large: 27 - 45kg",0
+	grooming6 byte "					         1. Basic grooming(small)  RM 40",0
+	grooming7 byte "					         2. Basic grooming(medium) RM 75",0
+	grooming8 byte "					         3. Basic grooming(large)  RM 105",0
+	grooming9 byte "					         4. Special grooming(small) RM 95",0
+	grooming10 byte "					         5. Special grooming(medium) RM 180",0
+	grooming11 byte "					         6. Special grooming(large) RM 195",0
+	grooming12 byte "					         Enter your choice: ",0
+	grooming13 byte	?
+	Dgroomingqty byte "					         Enter the quantity: ",0
+	groomingqty byte 0
+
+	;-------------------------------------- hotel --------------------------------------
+	;hotel_menu - display pet hotel menu
+	hotel byte "                                                 Pet Hotel:",0
+	hotel1 byte "                                                 1. Puppy/Kitten RM30/day",0
+	hotel2 byte "                                                 2. Adult Dog/Cat RM40/day",0
+	hotel3 byte "                                                 3. Large Breed Dog RM60/day",0
+	hotel4 byte "                                                 Enter your choice: ",0
+	hotel5 byte	?
+	Dhotelqty byte "                                                 Enter how many days would like to stay: ",0
+	hotelqty byte 0
+	
+	;-------------------------------------- food --------------------------------------
+	;food menu - display a list of pet food (under pet products)
+	food byte "                                                 Pet Food:",0
+	food1 byte "                                                 1. Royal Canin 12kg (Dog) RM350",0
+	food2 byte "                                                 2. Burp 12kg (Adult Dog) RM288",0
+	food3 byte "                                                 3. Mhims 375g (Puppy) RM17",0
+	food4 byte "                                                 4. Royal Canin 12.2kg (Cat) RM87",0
+	food5 byte "                                                 5. Science Diet 3.2kg (Adult Cat) RM157",0
+	food6 byte "                                                 6. Whiskas 3kg (Cat) RM39",0
+	food7 byte "                                                 Enter purchase item: ",0
+	food8 byte	?
+	Dfoodqty byte "                                                 Enter the quantity: ",0
+	foodqty byte 0
+
+	;-------------------------------------- toy --------------------------------------
+	;toy_menu - display a list of pet toy (under products)
+	toy byte "                                                 Pet Toys:",0
+	toy1 byte "                                                 1. Cat Tree RM20",0
+	toy2 byte "                                                 2. Plush Toy RM10",0
+	toy3 byte "                                                 3. Chew Toy RM10",0
+	toy4 byte "                                                 4. Interactive Toy RM10",0
+	toy5 byte "                                                 5. Ball Toy RM10",0
+	toy6 byte "                                                 Enter your choice: ",0
+	toy7 byte	?
+	Dtoyqty byte "                                                 Enter the quantity: ",0
+	toyqty byte 0
+
+	;-------------------------------------- accessory --------------------------------------
+	;accessory_menu - display a list of pet accessories (under products)
+	acc byte "                                                 Pet Accessories:",0
+	acc1 byte "                                                 1. Litter Tray (Cat) RM95",0
+	acc2 byte "                                                 2. Elasticised Litter Tray Liners - 15pcs (Cat) RM32",0
+	acc3 byte "                                                 3. Litter Scoop Micro (Cat) RM6",0
+	acc4 byte "                                                 4. No More Litterbox Odours - Powder 500g (Cat/Dog) RM41",0
+	acc5 byte "                                                 5. Pet Toilet with Mesh Plate (Dog) RM80",0
+	acc6 byte "                                                 6. Wee Pads 25pcs - Large (Dog) RM68",0
+	acc7 byte "                                                 Enter your choice: ",0
+	acc8 byte	?
+	Daccqty byte "                                                 Enter the quantity: ",0
+	accqty byte 0
+
+	;-------------------------------------- loop --------------------------------------
+	Loop1 byte "                                                 Do you want to continue purchase? (Y/N)",0
+	LoopA byte ?
+	Loop2 byte "                                                 Invalid Input Command. Pleas Try again......"
+
+	;-------------------------------------- back & quit --------------------------------------
+	quitMenu byte "                                                 ['q' or 'Q' to quit | 'p' or 'P' to pay]",0
+	returnQuitMenu byte "                                                 ['r' or 'R' to return previous menu | 'm' or 'M' to main menu]",0
+
+	;-------------------------------------- option error message --------------------------------------
+	optionErrMsg byte "                                                 Invalid option. Please enter again !!!",0
+
+	;-------------------------------------- payment ----------------------------------------
+	Llineout byte 0AH
+	Clineout byte 0DH
+	Custitemlist byte 99999 DUP(0)
+	itempricelist word 0,350,288,17,87,157,39,20,10,10,10,10,95,32,6,41,80,68,40,75,105,95,180,195,30,40,60
+	itemqty byte 99999 DUP(?)
+	Lengthitemlist dword 0
+
+	;-------------------------------------- payment --------------------------------------
+	payment byte "		    ================================================================================================                 ",0
+	payment1 byte "                                                           Payment Page                                                    ",0
+	payment2 byte "		    ================================================================================================                 ",0
+	payment3 byte "		    Item Name:				                   Price:           Quantity:       Subtotal:              ",0
+	paymentI byte "                    ",0
+	paymentS byte "		    ",0
+	subtotalprice Dword 0
+	nowprice word 0
+	Dsubtotal byte "		    Subtotal: RM ",0
+	totalprice Dword 0
+
+	;-------------------------------------- menu name --------------------------------------
+	numberfromfile byte 2 DUP(0)
+
+	;--------------------------------------- payment option --------------------------------------------
+
+	paymentopt byte "                                      ==============================================================================",0
+	paymentopt1 byte "                                                                   Payment Option Page                             ",0
+	paymentopt2 byte "                                      ==============================================================================",0
+	paymentopt3 byte "                                      \                            1. Cash Payment                                 \",0
+	paymentopt4 byte "                                      \                            2. Card Payment                                 \",0
+	paymentopt5 byte "                                      ==============================================================================",0
+	paymentopt6 byte "                                      Enter your payment option: ",0
+	paymentopt7 byte ?
+
+	paymentoptA byte "                                      ==============================================================================",0
+	paymentoptB byte "                                                                      Cash Payment                                  ",0
+	paymentoptC byte "                                      ==============================================================================",0
+	paymentoptD byte "                                                               RM 100.00     x      ",0
+	paymentoptE byte "                                                               RM  50.00     x      ",0
+	paymentoptF byte "                                                               RM  20.00     x      ",0
+	paymentoptG byte "                                                               RM  10.00     x      ",0
+	paymentoptH byte "                                                               RM   5.00     x      ",0
+	paymentoptI byte "                                                               RM   1.00     x      ",0
+	paymentoptJ dword 0		;Read RM100
+	paymentoptK dword 0		;Read RM50
+	paymentoptL dword 0		;Read RM20
+	paymentoptM dword 0		;Read RM10
+	paymentoptN dword 0		;Read RM5
+	paymentoptO dword 0		;Read RM1
+	paymentoptP dword 100,50,20,10,5,1
+	paymentoptQ byte "                                                               Amount Paid (RM): ",0
+	paymentoptR byte "                                                               Change (RM): ",0
+	paymentoptS byte "                                                            THANK YOU FOR YOUR ORDER!!!",0
+	paymentCashTotal dword 0
+	change dword 0
+
+	paymentoptAA byte "                                      ==============================================================================",0
+	paymentoptAB byte "                                                                     Card Payment                                   ",0
+	paymentoptAC byte "                                      ==============================================================================",0
+	bankName byte "                                                MAYBANK (MBB)                      PUBLIC BANK (PBB)",0
+	bankName1 byte "                                                HONG LEONG BANK (HLB)              CIMB BANK (CMB)",0
+	bankName2 byte "                                                AMBANK (AMB)                       RASHID HUSSAIN BANK (RHB)",0
+	bankName3 byte "                                                UNITED OVERSEAS BANK (UOB)         AFFIN BANK (ABB)",0
+	promptBank byte "                                      Name of Bank    (e.g. MBB)             : ",0
+	promptCardNo byte "                                      Card Account Number (e.g. 1234 1234 1234 1234) : ",0
+	promptDate byte "                                      Expiration Date     (e.g. 09/23)               : ",0
+	promptCV byte "                                      CV CODE             (e.g. 001)                 : ",0
+	paymentoptAH byte MAX+1 dup(?)						;Bank Option
+	paymentoptAI byte MAX+1 dup(?)						;Card Number
+	paymentoptAJ byte MAX+1 dup(?)						;Expiration Date
+	paymentoptAK byte 3 dup(?)
+	paymentoptAK1 byte ?								;CV CODE
+	paymentoptAK2 byte ?
+	paymentoptAK3 byte ?
+	paymentoptAL byte "                                                                   Transaction Successful !!!",0
+	paymentoptAM byte "                                     ==============================================================================",0
+	paymentoptAN byte "						             	     Bank Receipt                                  ",0
+	paymentoptAO byte "                                     ==============================================================================",0
+	paymentoptAP byte "                                     Reference ID               : 781660440M",0
+	paymentoptAQ byte "                                     Beneficiary Name           : Cat & Dog Pet Shop",0
+	paymentoptAR byte "                                     Beneficiary Account Number : 196001000142",0
+	paymentoptAS byte "                                     Recipent Reference         : Order Payment",0
+	paymentoptAT byte "                                     Amount                     : RM ",0
+	paymentoptAU byte "                                     Status                     : Successful",0
+	paymentoptAV byte "                                     ==============================================================================",0
+
+	paymentcmpBankMBB byte "MBB",0
+	paymentcmpBankHLB byte "HLB",0
+	paymentcmpBankAMB byte "AMB",0
+	paymentcmpBankUOB byte "UOB",0
+	paymentcmpBankPBB byte "PBB",0
+	paymentcmpBankCMB byte "CMB",0
+	paymentcmpBankRHB byte "RHB",0
+	paymentcmpBankABB byte "ABB",0
+	paymentdcsBank byte 30 dup(?)
+	paymentoptError byte "                                      Invalid Input!!! Only allow '1' and '2' as payment option",0
+	errpaynotenough byte "                                      Payment not sufficient!!!",0
+	paymentoptBankError byte "                                      Invalid Input!!! This bank is not in range.",0
+
+.code
+	;-------------------------------------- header --------------------------------------
+	header proc							;start header function
+		Call Crlf
+		lea edx,header1
+		Call WriteString
+		Call Crlf
+		lea edx,header2
+		Call WriteString
+		Call Crlf
+		lea edx,header3
+		Call WriteString
+		Call Crlf
+	ret
+	header endp							;end header function
+
+	;-------------------------------------- user menu --------------------------------------
+	user_menu proc						;start user menu
+        Call Crlf
+        lea edx,user
+        Call WriteString
+        Call Crlf
+        lea edx,user1
+        Call WriteString
+        Call Crlf
+        lea edx,user2
+		Call WriteString
+        Call Crlf
+        lea edx,user3
+		Call WriteString
+		;Read Char
+		call ReadChar
+		call writechar
+		mov user4,al
+		Call Crlf
+
+        cmp user4, '1'					;compare user input with 1
+        je Userlogin					;jump to login_menu
+
+        cmp user4, '2'					;compare user input with 2
+        je mainmenu						;jump to main_menu
+
+		jmp invalidUser
+
+	UserLogin:
+		Call User_login
+		jmp quit
+
+	mainmenu:
+		jmp quit
+
+	quit:
+
+    ret
+    user_menu endp						;end user menu
+		
+	;-------------------------------------- main menu --------------------------------------
+	main_menu proc						;start main menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,menu
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx, quitMenu
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,menu1
+		Call WriteString
+		Call Crlf
+		lea edx,menu2
+		Call WriteString
+		Call Crlf
+		lea edx,menu3
+		Call WriteString
+		Call Crlf
+		lea edx,menu4
+		Call WriteString
+		;Read Char
+		call ReadChar
+		call writechar
+		mov menu5,al
+		Call Crlf
+
+		cmp menu5, '1'					;compare user input with 1
+		je product_menu					;jump to product_menu
+
+		cmp menu5, '2'					;compare user input with 2
+		je grooming_menu				;jump to grooming_menu
+
+		cmp menu5, '3'					;compare user input with 3
+		je hotel_menu					;jump to hotel_menu
+
+		cmp menu5, 'q'					;compare user input with q
+		je toexit						;exit program
+
+		cmp menu5, 'Q'					;compare user input with Q
+		je toexit						;exit program
+
+		cmp menu5, 'p'					;compare user input with p
+		je payment_menu					;jump to payment_menu
+
+		cmp menu5, 'P'					;compare user input with p
+		je payment_menu					;jump to payment_menu
+
+		jmp invalidMain
+
+		productmenu:
+			call product_menu
+			jmp quit
+
+		groomingmenu:
+			call grooming_menu
+			jmp quit
+
+		hotelmenu:
+			call hotel_menu
+			jmp quit
+
+		toexit:
+			exit
+
+	quit:
+	ret
+	main_menu endp						;end main menu
+
+	;-------------------------------------- product menu --------------------------------------
+	product_menu proc					;start pet product menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,product
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,returnQuitMenu
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,product1
+		Call WriteString
+		Call Crlf
+		lea edx,product2
+		Call WriteString
+		Call Crlf
+		lea edx,product3
+		Call WriteString
+		Call Crlf
+		lea edx,product4
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		call writechar
+		mov product5,al
+		Call Crlf	
+
+		cmp product5, '1'				;compare user input with 1
+		je food_menu					;jump to food_menu
+
+		cmp product5, '2'				;compare user input with 2
+		je toy_menu						;jump to toy_menu
+
+		cmp product5, '3'				;compare user input with 3
+		je accessory_menu				;jump to accessory menu
+
+		cmp product5, 'r'				;compare user input with r
+		je main_menu					;return to previous menu
+
+		cmp product5, 'R'				;compare user input with R
+		je main_menu					;return to previous menu
+
+		cmp product5, 'm'				;compare user input with r
+		je main_menu					;jump to main_menu
+
+		cmp product5, 'M'				;compare user input with R
+		je main_menu					;jump to main_menu
+
+		jmp invalidProduct
+
+		foodmenu:
+			call food_menu
+			jmp quit
+
+		toymenu:
+			call toy_menu
+			jmp quit
+
+		accessorymenu:
+			call accessory_menu
+			jmp quit
+
+	quit:
+	ret
+	product_menu endp					;end pet product menu
+
+	;-------------------------------------- grooming menu --------------------------------------
+	grooming_menu proc					;start pet grooming menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,returnQuitMenu
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming1
+		Call WriteString
+		Call Crlf
+		lea edx,grooming2
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming3
+		Call WriteString
+		Call Crlf
+		lea edx,grooming4
+		Call WriteString
+		Call Crlf
+		lea edx,grooming5
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming6
+		Call WriteString
+		Call Crlf
+		lea edx,grooming7
+		Call WriteString
+		Call Crlf
+		lea edx,grooming8
+		Call WriteString
+		Call Crlf
+		lea edx,grooming9
+		Call WriteString
+		Call Crlf
+		lea edx,grooming10
+		Call WriteString
+		Call Crlf
+		lea edx,grooming11
+		Call WriteString
+		Call Crlf
+
+grooming_option:
+		lea edx,grooming12
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		call writechar
+		mov grooming13,al					
+		Call Crlf	
+
+		cmp grooming13,'1'
+		je G1
+		cmp grooming13,'2'
+		je G2
+		cmp grooming13,'3'
+		je G3
+		cmp grooming13,'4'
+		je G4
+		cmp grooming13,'5'
+		je G5
+		cmp grooming13,'6'
+		je G6
+
+		cmp grooming13, 'r'				;compare user input with r
+		je main_menu					;return to previous menu
+
+		cmp grooming13, 'R'				;compare user input with R
+		je main_menu					;return to previous menu
+
+		cmp grooming13, 'm'				;compare user input with r
+		je main_menu					;jump to main_menu
+
+		cmp grooming13, 'M'				;compare user input with R
+		je main_menu					;jump to main_menu
+
+		jmp invalidGrooming
+
+invalidGrooming:
+		Call Crlf
+		lea edx, optionErrMsg
+		Call WriteString
+		Call Crlf
+		Call Crlf
+		jmp grooming_option
+
+Errormsg:
+jmp quit
+
+
+G1:		
+		lea edx,Dgroomingqty
+		Call WriteString
+		Call ReadDec					;read Quantity
+		mov groomingqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 18							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisG1						
+
+		checkbuyG1:							
+			cmp Custitemlist[esi] , bl
+			je haveG1						
+			inc esi
+		loop checkbuyG1						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisG1:								
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 18
+		mov Custitemlist[esi] , bl
+haveG1:
+		inc esi
+		mov EBX , 0
+		mov bl , groomingqty
+		add Custitemlist[esi] , bl
+
+		
+
+		jmp quit
+
+G2:
+		lea edx,Dgroomingqty
+		Call WriteString
+		Call ReadDec					;read Quantity
+		mov groomingqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 19							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisG2						
+
+		checkbuyG2:							
+			cmp Custitemlist[esi] , bl
+			je haveG2						
+			inc esi
+		loop checkbuyG2						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisG2:								
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 19
+		mov Custitemlist[esi] , bl
+haveG2:
+		inc esi
+		mov EBX , 0
+		mov bl , groomingqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+G3:		
+		lea edx,Dgroomingqty
+		Call WriteString
+		Call ReadDec					;read Quantity
+		mov groomingqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 20							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisG3						
+
+		checkbuyG3:							
+			cmp Custitemlist[esi] , bl
+			je haveG3						
+			inc esi
+		loop checkbuyG3						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisG3:								
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 20
+		mov Custitemlist[esi] , bl
+haveG3:
+		inc esi
+		mov EBX , 0
+		mov bl , groomingqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+G4:		
+		lea edx,Dgroomingqty
+		Call WriteString
+		Call ReadDec					;read Quantity
+		mov groomingqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 21							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisG4						
+
+		checkbuyG4:							
+			cmp Custitemlist[esi] , bl
+			je haveG4						
+			inc esi
+		loop checkbuyG4						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisG4:								
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 21
+		mov Custitemlist[esi] , bl
+haveG4:
+		inc esi
+		mov EBX , 0
+		mov bl , groomingqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+G5:		
+		lea edx,Dgroomingqty
+		Call WriteString
+		Call ReadDec					;read Quantity
+		mov groomingqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 22							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisG5						
+
+		checkbuyG5:							
+			cmp Custitemlist[esi] , bl
+			je haveG5						
+			inc esi
+		loop checkbuyG5						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisG5:								
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 22
+		mov Custitemlist[esi] , bl
+haveG5:
+		inc esi
+		mov EBX , 0
+		mov bl , groomingqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+G6:		
+		lea edx,Dgroomingqty
+		Call WriteString
+		Call ReadDec					;read Quantity
+		mov groomingqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 23							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisG6						
+
+		checkbuyG6:							
+			cmp Custitemlist[esi] , bl
+			je haveG6						
+			inc esi
+		loop checkbuyG6						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisG6:								
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 23
+		mov Custitemlist[esi] , bl
+haveG6:
+		inc esi
+		mov EBX , 0
+		mov bl , groomingqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+	quit:
+	ret
+	grooming_menu endp					;end pet grooming menu
+
+	;-------------------------------------- hotel menu --------------------------------------
+	hotel_menu proc						;start pet hotel menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,hotel
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,returnQuitMenu
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,hotel1
+		Call WriteString
+		Call Crlf
+		lea edx,hotel2
+		Call WriteString
+		Call Crlf
+		lea edx,hotel3
+		Call WriteString
+		Call Crlf
+
+hotel_option:
+		lea edx,hotel4
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		call writechar
+		mov hotel5,al
+		Call Crlf
+
+		cmp hotel5, 'r'					;compare user input with q
+		je main_menu					;jump to login interface
+
+		cmp hotel5, 'r'					;compare user input with Q
+		je main_menu					;jump to login interface
+
+		cmp hotel5, 'm'					;compare user input with r
+		je main_menu					;jump to main_menu
+
+		cmp hotel5, 'M'					;compare user input with R
+		je main_menu					;jump to main_menu
+
+		cmp hotel5, '1'
+		je H1
+		cmp hotel5, '2'
+		je H2
+		cmp hotel5, '3'
+		je H3
+
+		jmp invalidHotel
+
+invalidHotel:
+		Call Crlf
+		lea edx, optionErrMsg
+		Call WriteString
+		Call Crlf
+		Call Crlf
+		jmp hotel_option
+
+Errormsg:
+jmp quit
+
+H1:
+		lea edx,Dhotelqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov hotelqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 24							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisH1						
+
+		checkbuyH1:							
+			cmp Custitemlist[esi] , bl
+			je haveH1						
+			inc esi
+		loop checkbuyH1						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisH1:								
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 24
+		mov Custitemlist[esi] , bl
+
+haveH1:
+		inc esi
+		mov EBX , 0
+		mov bl , hotelqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+
+H2:
+		lea edx,Dhotelqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov hotelqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 25							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisH2						
+
+		checkbuyH2:							
+			cmp Custitemlist[esi] , bl
+			je haveH2						
+			inc esi
+		loop checkbuyH2						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisH2:								
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 25
+		mov Custitemlist[esi] , bl
+
+haveH2:
+		inc esi
+		mov EBX , 0
+		mov bl , hotelqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+H3:		
+		lea edx,Dhotelqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov hotelqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 26							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisH3						
+
+		checkbuyH3:							
+			cmp Custitemlist[esi] , bl
+			je haveH3						
+			inc esi
+		loop checkbuyH3						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisH3:								
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 26
+		mov Custitemlist[esi] , bl
+
+haveH3:
+		inc esi
+		mov EBX , 0
+		mov bl , hotelqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+	quit:
+	ret
+	hotel_menu endp						;end pet hotel menu
+
+	;-------------------------------------- food menu --------------------------------------
+	food_menu proc						;start pet food menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,food
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,returnQuitMenu
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,food1
+		Call WriteString
+		Call Crlf
+		lea edx,food2
+		Call WriteString
+		Call Crlf
+		lea edx,food3
+		Call WriteString
+		Call Crlf
+		lea edx,food4
+		Call WriteString
+		Call Crlf
+		lea edx,food5
+		Call WriteString
+		Call Crlf
+		lea edx,food6
+		Call WriteString
+		Call Crlf
+
+food_option:
+		lea edx,food7
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		call writechar
+		mov food8,al
+		Call Crlf	
+
+		cmp food8, 'm'					;compare user input with q
+		je main_menu					;jump to main_menu
+
+		cmp food8, 'M'					;compare user input with Q
+		je main_menu					;jump to main_menu
+
+		cmp food8, 'r'					;compare user input with r
+		je product_menu					;return to product_menu
+
+		cmp food8, 'R'					;compare user input with R
+		je product_menu					;return to product_menu
+
+		cmp food8,'1'
+		je F1
+		cmp food8,'2'
+		je F2
+		cmp food8,'3'
+		je F3
+		cmp food8,'4'
+		je F4
+		cmp food8,'5'
+		je F5
+		cmp food8,'6'
+		je F6
+
+		jmp invalidFood
+
+invalidFood:
+		Call Crlf
+		lea edx, optionErrMsg
+		Call WriteString
+		Call Crlf
+		Call Crlf
+		jmp food_option
+
+F1:
+		lea edx,Dfoodqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov foodqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 1							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisf1						
+
+		checkbuyF1:
+			cmp Custitemlist[esi] , bl
+			je havef1						
+			inc esi
+		loop checkbuyF1
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisf1:								
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 1							
+		mov Custitemlist[esi] , bl
+havef1:										
+		inc esi
+		mov EBX , 0
+		mov bl , foodqty					
+		add Custitemlist[esi] , bl
+		jmp quit
+
+		
+
+F2:
+		lea edx,Dfoodqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov foodqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 2							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisf2						
+
+		checkbuyF2:							
+			cmp Custitemlist[esi] , bl
+			je havef2						
+			inc esi
+		loop checkbuyF2						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisf2:								
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 2							
+		mov Custitemlist[esi] , bl
+havef2:										
+		inc esi
+		mov EBX , 0
+		mov bl , foodqty					
+		add Custitemlist[esi] , bl
+		jmp quit
+
+F3:
+		lea edx,Dfoodqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov foodqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 3							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisf3						
+
+		checkbuyF3:							
+			cmp Custitemlist[esi] , bl
+			je havef3						
+			inc esi
+		loop checkbuyF3						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisf3:								
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 3							
+		mov Custitemlist[esi] , bl
+havef3:										
+		inc esi
+		mov EBX , 0
+		mov bl , foodqty					
+		add Custitemlist[esi] , bl
+		jmp quit
+
+F4:
+		lea edx,Dfoodqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov foodqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 4							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisf4						
+
+		checkbuyF4:							
+			cmp Custitemlist[esi] , bl
+			je havef4						
+			inc esi
+		loop checkbuyF4						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisf4:								
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 4							
+		mov Custitemlist[esi] , bl
+havef4:										
+		inc esi
+		mov EBX , 0
+		mov bl , foodqty					
+		add Custitemlist[esi] , bl
+		jmp quit
+
+F5:
+		lea edx,Dfoodqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov foodqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 5							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisf5					
+
+		checkbuyF5:							
+			cmp Custitemlist[esi] , bl
+			je havef5						
+			inc esi
+		loop checkbuyF5						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisf5:								
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 5							
+		mov Custitemlist[esi] , bl
+havef5:										
+		inc esi
+		mov EBX , 0
+		mov bl , foodqty					
+		add Custitemlist[esi] , bl
+		jmp quit
+
+F6:
+		lea edx,Dfoodqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov foodqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 6							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisf6						
+
+		checkbuyF6:							
+			cmp Custitemlist[esi] , bl
+			je havef6						
+			inc esi
+		loop checkbuyF6						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+
+nohavethisf6:							
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 6							
+		mov Custitemlist[esi] , bl
+havef6:										
+		inc esi
+		mov EBX , 0
+		mov bl , foodqty					
+		add Custitemlist[esi] , bl
+		jmp quit
+
+	quit:
+	ret
+	food_menu endp						;end pet food menu
+
+	;-------------------------------------- toy menu --------------------------------------
+	toy_menu proc						;start toy menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,toy
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,returnQuitMenu
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,toy1
+		Call WriteString
+		Call Crlf
+		lea edx,toy2
+		Call WriteString
+		Call Crlf
+		lea edx,toy3
+		Call WriteString
+		Call Crlf
+		lea edx,toy4
+		Call WriteString
+		Call Crlf
+		lea edx,toy5
+		Call WriteString
+		Call Crlf
+
+toy_option:
+		lea edx,toy6
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		call writechar
+		mov toy7,al
+		Call Crlf	
+
+		cmp toy7, 'm'					;compare user input with q
+		je main_menu					;jump to main_menu
+
+		cmp toy7, 'M'					;compare user input with Q
+		je main_menu					;jump to main_menu
+
+		cmp toy7, 'r'					;compare user input with r
+		je product_menu					;return to product_menu
+
+		cmp toy7, 'R'					;compare user input with R
+		je product_menu					;return to product_menu
+
+		cmp toy7,'1'
+		je T1
+		cmp toy7,'2'
+		je T2
+		cmp toy7,'3'
+		je T3
+		cmp toy7,'4'
+		je T4
+		cmp toy7,'5'
+		je T5
+
+		jmp invalidToy
+
+invalidToy:
+		Call Crlf
+		lea edx, optionErrMsg
+		Call WriteString
+		Call Crlf
+		Call Crlf
+		jmp toy_option
+
+T1:
+		lea edx,Dtoyqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov toyqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 7							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisT1						
+
+		checkbuyT1:							
+			cmp Custitemlist[esi] , bl
+			je haveT1						
+			inc esi
+		loop checkbuyT1						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisT1:							
+		mov edi , 0
+		mov esi , Lengthitemlist
+
+		mov EBX , 0
+		mov bl , 7
+		mov Custitemlist[esi] , bl
+haveT1:
+		inc esi
+		mov EBX , 0
+		mov bl , toyqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+T2:
+		lea edx,Dtoyqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov toyqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 8							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisT2						
+
+		checkbuyT2:							
+			cmp Custitemlist[esi] , bl
+			je haveT2						
+			inc esi
+		loop checkbuyT2						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisT2:							
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 8
+		mov Custitemlist[esi] , bl
+haveT2:
+		inc esi
+		mov EBX , 0
+		mov bl , toyqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+T3:
+		lea edx,Dtoyqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov toyqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 9							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisT3						
+
+		checkbuyT3:							
+			cmp Custitemlist[esi] , bl
+			je haveT3						
+			inc esi
+		loop checkbuyT3						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisT3:							
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 9
+		mov Custitemlist[esi] , bl
+haveT3:
+		inc esi
+		mov EBX , 0
+		mov bl , toyqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+T4:
+		lea edx,Dtoyqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov toyqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 10							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisT4						
+
+		checkbuyT4:							
+			cmp Custitemlist[esi] , bl
+			je haveT4					
+			inc esi
+		loop checkbuyT4						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisT4:							
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 10
+		mov Custitemlist[esi] , bl
+haveT4:
+		inc esi
+		mov EBX , 0
+		mov bl , toyqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+T5:
+		lea edx,Dtoyqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov toyqty,al
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 11							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisT5 					
+
+		checkbuyT5:							
+			cmp Custitemlist[esi] , bl
+			je haveT5						
+			inc esi
+		loop checkbuyT5						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisT5:							
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 11
+		mov Custitemlist[esi] , bl
+haveT5:
+		inc esi
+		mov EBX , 0
+		mov bl , toyqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+	quit:
+
+	ret
+	toy_menu endp						;end toy menu
+
+	;-------------------------------------- accessory menu --------------------------------------
+	accessory_menu proc					;start pet accessories menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,acc
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,returnQuitMenu
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,acc1
+		Call WriteString
+		Call Crlf
+		lea edx,acc2
+		Call WriteString
+		Call Crlf
+		lea edx,acc3
+		Call WriteString
+		Call Crlf
+		lea edx,acc4
+		Call WriteString
+		Call Crlf
+		lea edx,acc5
+		Call WriteString
+		Call Crlf
+		lea edx,acc6
+		Call WriteString
+		Call Crlf
+
+acc_option:
+		lea edx,acc7
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		call writechar
+		mov acc8,al
+		Call Crlf	
+
+		cmp acc8, 'q'					;compare user input with q
+		je main							;jump to login interface
+
+		cmp acc8, 'Q'					;compare user input with Q
+		je main							;jump to login interface
+
+		cmp acc8, 'r'					;compare user input with r
+		je product_menu					;jump to product_menu
+
+		cmp acc8, 'R'					;compare user input with R
+		je product_menu					;jump to product_menu
+
+		cmp acc8,'1'
+		je A1
+		cmp acc8,'2'
+		je A2
+		cmp acc8,'3'
+		je A3
+		cmp acc8,'4'
+		je A4
+		cmp acc8,'5'
+		je A5
+		cmp acc8,'6'
+		je A6
+
+		jmp invalidAcc
+
+invalidAcc:
+		Call Crlf
+		lea edx, optionErrMsg
+		Call WriteString
+		Call Crlf
+		Call Crlf
+		jmp acc_option
+
+A1:
+		lea edx,Daccqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov accqty,al	
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 12							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisA1 					
+
+		checkbuyA1:							
+			cmp Custitemlist[esi] , bl
+			je haveA1						
+			inc esi
+		loop checkbuyA1						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisA1:							
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 12
+		mov Custitemlist[esi] , bl
+haveA1:
+		inc esi
+		mov EBX , 0
+		mov bl , accqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+
+A2:
+		lea edx,Daccqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov accqty,al	
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 13							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisA2 					
+
+		checkbuyA2:							
+			cmp Custitemlist[esi] , bl
+			je haveA2						
+			inc esi
+		loop checkbuyA2						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisA2:							
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 13
+		mov Custitemlist[esi] , bl
+haveA2:
+		inc esi
+		mov EBX , 0
+		mov bl , accqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+A3:
+		lea edx,Daccqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov accqty,al	
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 14							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisA3 					
+
+		checkbuyA3:							
+			cmp Custitemlist[esi] , bl
+			je haveA3						
+			inc esi
+		loop checkbuyA3						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisA3:							
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 14
+		mov Custitemlist[esi] , bl
+haveA3:
+		inc esi
+		mov EBX , 0
+		mov bl , accqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+A4:
+		lea edx,Daccqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov accqty,al	
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 15							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisA4 					
+
+		checkbuyA4:							
+			cmp Custitemlist[esi] , bl
+			je haveA4						
+			inc esi
+		loop checkbuyA4						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisA4:							
+
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 15
+		mov Custitemlist[esi] , bl
+haveA4:
+		inc esi
+		mov EBX , 0
+		mov bl , accqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+A5:
+		lea edx,Daccqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov accqty,al	
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 16							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisA5 					
+
+		checkbuyA5:							
+			cmp Custitemlist[esi] , bl
+			je haveA5						
+			inc esi
+		loop checkbuyA5						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisA5:							
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 16
+		mov Custitemlist[esi] , bl
+haveA5:
+		inc esi
+		mov EBX , 0
+		mov bl , accqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+A6:
+		lea edx,Daccqty
+		Call WriteString
+		Call ReadDec					;read quantity
+		mov accqty,al	
+
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		;START check user have ady enter this item
+		mov esi , 0
+		mov ecx , 0
+		mov ebx , 0
+		mov bl , 17							
+		mov ecx ,  Lengthitemlist
+		cmp Lengthitemlist , 0
+		je nohavethisA6 					
+
+		checkbuyA6:							
+			cmp Custitemlist[esi] , bl
+			je haveA6						
+			inc esi
+		loop checkbuyA6						
+		mov ebx , 0
+		mov ecx , 0
+		mov esi , 0
+		;END check user have ady enter this item
+nohavethisA6:							
+
+		mov edi , 0
+		mov esi , Lengthitemlist
+		
+		mov EBX , 0
+		mov bl , 17
+		mov Custitemlist[esi] , bl
+haveA6:
+		inc esi
+		mov EBX , 0
+		mov bl , accqty
+		add Custitemlist[esi] , bl
+		jmp quit
+
+	quit:
+
+	ret
+	accessory_menu endp					;end pet accessories menu
+
+	;-------------------------------------- buy again --------------------------------------
+	display_asktobuyagain proc			;start looping function
+		
+		mov eax , 0
+		mov edx , 0
+		Call Crlf
+		Call Crlf
+		lea edx,Loop1
+		Call WriteString
+		Call ReadChar					;read user input
+		call writechar
+		mov LoopA,al
+		Call Crlf
+		Call Crlf
+
+	ret
+	display_asktobuyagain endp			;end looping function
+
+	;-------------------------------------- user login --------------------------------------
+	User_login proc						;start user login menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		mov fileHandle, 0
+		mov user_start_address, 0
+		mov password_start_address, 6
+
+		lea  edx, fileName
+		Call OpenInputFile
+		mov  fileHandle, eax
+		mov  eax,fileHandle
+		mov  edx,OFFSET user_file
+		mov  ecx,BUFMAX
+		Call ReadFromFile
+		mov  bytesRead,eax
+		mov eax, fileHandle
+		Call CloseFile
+
+		lea edx , Dusername_input
+		call writestring
+
+		mov ecx , 6
+		mov edx,offset username_input
+		call ReadString
+
+		mov edx , 0
+		mov ecx, 9 
+		Call Crlf
+		lea edx , Dpassword_input
+		call writestring
+
+		mov edx , 0
+		mov edx,offset password_input
+		call ReadString
+
+		nextuser:
+		;this is for user
+		mov edi , 0
+		mov	esi , 0
+		mov esi , user_start_address			;Starting address
+		mov ecx , 5								;Limit address
+
+		mov ebx , 0
+		mov bl , " "
+		cmp user_file[esi] , bl
+		je	no_such_userORpass
+
+		mov ebx , 0
+		mov bl , null
+		cmp user_file[esi] , bl
+		je	no_such_userORpass
+
+		username:
+
+			mov AL , user_file[esi]
+			cmp AL , username_input[edi]
+			jne search_next_user
+		
+			inc edi
+			inc esi
+
+		loop username
+
+
+		;this is for password
+		mov edi , 0
+		mov	esi , 0
+		mov esi , password_start_address			;Starting address
+		mov ecx , 8									;Limit address
+
+		password:
+		
+			mov AL , user_file[esi]
+			cmp AL , password_input[edi]
+			jne search_next_user
+
+			inc edi
+			inc esi
+
+		loop password
+		
+		lea edx , Dloginsuccess
+		Call Crlf
+		Call WriteString
+		Call Crlf
+		mov loginstatus , 1
+		lea edx, Space
+		Call WriteString
+		Call WaitMsg
+		jmp quit
+
+		search_next_user:
+			mov esi , 0
+			mov esi , 16
+			add esi , user_start_address
+			mov user_start_address , esi
+			mov esi , 0
+			mov esi , 16
+			add esi , password_start_address
+			mov password_start_address , esi
+	jmp nextuser
+
+	no_such_userORpass:
+		lea edx , Dnothisuser
+		Call Crlf
+		Call WriteString
+		Call Crlf
+		mov loginstatus , 0
+		lea edx, Space
+		Call WriteString
+		Call WaitMsg
+		je user_menu
+
+	quit:
+	ret
+	User_login endp
+
+	;-------------------------------------- payment --------------------------------------
+	payment_menu proc
+
+	Call clrscr		
+		Call Crlf
+		Call Crlf
+		lea edx,payment
+		Call WriteString
+		Call Crlf
+
+		lea edx,payment1
+		Call WriteString
+		Call Crlf
+
+		lea edx,payment2
+		Call WriteString
+		Call Crlf
+
+		lea edx,payment3
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentI
+		Call WriteString
+		
+		mov  edx,OFFSET Custitemlist
+		call StrLength
+		mov  Lengthitemlist,eax
+
+		mov ecx , 0
+		mov eax , 0
+		mov ecx , 0
+		mov esi , 0
+		mov edi , 0
+
+		item:
+
+			mov bl , Custitemlist[esi]
+
+			mov al , menuname[edi]
+			mov numberfromfile[0] , al
+			inc edi
+			mov al , menuname[edi]
+			mov numberfromfile[1] , al
+
+			;START convert integer
+			mov edx,OFFSET numberfromfile
+			mov ecx,lengthof numberfromfile
+			call ParseInteger32
+			;END convert integer
+	
+			cmp al , bl
+			jne	notthisitem
+
+			; YES this item
+			inc edi
+			thisitem:
+			inc edi
+			mov al , menuname[edi]
+			cmp al , Clineout
+			je Displayprice
+			mov eax , 0
+			mov al , menuname[edi]
+			call writechar
+			jmp thisitem
+			inc edi
+			lea edx,paymentS
+			Call WriteString
+
+DisplayPrice:
+			mov ebx , 0
+			mov bl , Custitemlist[esi]
+			mov ax , itempricelist[ebx*2]
+			mov nowprice , ax
+			mov ebx , 0
+			call writedec
+
+Displayqty:
+			lea edx,paymentS
+			Call WriteString
+		
+			inc esi
+
+			mov eax , 0
+			mov al , Custitemlist[esi]
+			call writedec
+			lea edx,paymentS
+			Call WriteString
+
+			inc esi
+CALC:
+			mul nowprice
+			mov subtotalprice , EAX
+			mov ebx , 0
+			mov ebx , subtotalprice
+			add totalprice , EBX
+			mov ebx , 0
+			
+			mov EAX , subtotalprice
+			call writedec
+
+			call crlf
+			lea edx,paymentI
+			Call WriteString
+
+			mov eax , 0
+			jmp anothercustitem
+
+			notthisitem:
+			inc edi
+			mov al , menuname[edi]
+			cmp al , Llineout
+			je nextitemno
+			jmp notthisitem
+
+			nextitemno:
+			inc edi
+			mov eax , 0
+
+		jmp item
+
+anothercustitem:
+		
+		mov ecx , 0
+		mov eax , 0
+		mov ecx , 0
+		mov edi , 0
+
+		dec Lengthitemlist
+		dec Lengthitemlist
+		cmp Lengthitemlist , 0
+		je cust_pay
+		jmp item
+
+cust_pay:
+		Call Crlf
+		Call Crlf
+		lea edx, Dsubtotal
+		Call WriteString
+		mov EAX , 0
+		mov EAX, totalprice
+		call writedec
+		
+		ret
+	payment_menu endp
+
+	;-------------------------------------- Display name ---------------------------------
+	readmenuname proc
+
+	mov menufileHandle , 0
+	call clrscr
+
+	lea  edx, filemenuName
+	Call OpenInputFile
+	mov  fileHandle, eax
+	mov  eax,fileHandle
+	mov  edx,OFFSET menuname
+	mov  ecx,BUFMAX
+	Call ReadFromFile
+	mov  menubytesRead,eax
+	mov eax, menufileHandle
+	Call CloseFile
+
+	ret
+	readmenuname endp
+
+	;-------------------------------------- Payment Option ---------------------------------
+
+	payment_option proc
+		mov eax,0
+		.REPEAT
+		mov eax,0
+		Call Crlf
+		Call Crlf
+
+		lea edx,paymentopt
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentopt1
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentopt2
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentopt3
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentopt4
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentopt5
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentopt6
+		Call WriteString
+
+		mov paymentopt7,'?'			;Clear Buffer
+		Call ReadChar		;Read Payment Option
+		call writechar
+		mov paymentopt7,al
+		Call Crlf
+
+		.IF paymentopt7 == '1'
+err_paymentnotenough:
+		Call Crlf
+		Call Crlf
+		Call Crlf
+		lea edx,paymentoptA
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentoptB
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentoptC
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentoptD
+		Call WriteString
+		Call ReadDec
+		mov paymentoptJ,eax				;Read RM100 Quantity
+		Call Crlf
+
+		lea edx,paymentoptE
+		Call WriteString
+		Call ReadDec
+		mov paymentoptK,eax
+		Call Crlf
+
+		lea edx,paymentoptF
+		Call WriteString
+		Call ReadDec
+		mov paymentoptL,eax
+		Call Crlf
+
+		lea edx,paymentoptG
+		Call WriteString
+		Call ReadDec
+		mov paymentoptM,eax
+		Call Crlf
+
+		lea edx,paymentoptH
+		Call WriteString
+		Call ReadDec
+		mov paymentoptN,eax
+		Call Crlf
+
+		lea edx,paymentoptI
+		Call WriteString
+		Call ReadDec
+		mov paymentoptO,eax
+		Call Crlf
+
+		;Count The Total Cash Amount
+		mov eax,paymentoptP[0]
+		mul paymentoptJ
+		add paymentCashTotal,eax
+
+		mov eax,paymentoptP[4]
+		mul paymentoptK
+		add paymentCashTotal,eax
+
+		mov eax,paymentoptP[8]
+		mul paymentoptL
+		add paymentCashTotal,eax
+
+		mov eax,paymentoptP[12]
+		mul paymentoptM
+		add paymentCashTotal,eax
+
+		mov eax,paymentoptP[16]
+		mul paymentoptN
+		add paymentCashTotal,eax
+
+		mov eax,paymentoptP[20]
+		mul paymentoptO
+		add paymentCashTotal,eax
+
+		;Amount Paid
+		lea edx,paymentoptQ
+		Call WriteString
+		
+		mov eax,paymentCashTotal
+		Call WriteDec
+		Call Crlf
+		Call Crlf
+
+		mov eax, 0
+		mov ebx, 0
+		mov eax , totalprice
+		mov ebx, paymentCashTotal
+		cmp ebx , eax
+		jb paymentnotenough
+		sub ebx, eax
+		mov change,ebx
+		mov eax, 0
+		mov ebx, 0
+		mov edx , 0
+		;Change
+		lea edx,paymentoptR
+		Call WriteString
+		mov edx , 0
+
+		mov eax , change
+		Call WriteDec
+		Call Crlf
+		Call Crlf
+
+		lea edx,paymentoptS
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		mov eax,100					;Stop Loop
+
+		.ELSEIF paymentopt7 == '2'
+		Call Crlf
+		Call Crlf
+		Call Crlf
+
+		lea edx,paymentoptAA
+		Call WriteString
+		Call Crlf
+		lea edx,paymentoptAB
+		Call WriteString
+		Call Crlf
+		lea edx,paymentoptAC
+		Call WriteString
+		Call Crlf
+		lea edx,bankName
+		Call WriteString
+		Call Crlf
+		lea edx,bankName1
+		Call WriteString
+		Call Crlf
+		lea edx,bankName2
+		Call WriteString
+		Call Crlf
+		lea edx,bankName3
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		mov eax,0
+		.WHILE eax < 100			;Start Loop
+		lea edx,promptBank
+		Call WriteString
+		mov  edx,OFFSET paymentoptAH
+        mov  ecx,MAX            ;buffer size - 1
+        call ReadString			;Read Bank Type
+		Call Crlf
+		
+		mov ecx,8
+		Bank_Compare:
+				Invoke Str_compare,
+						ADDR paymentoptAH,
+						ADDR paymentcmpBankMBB
+						JE validBank															
+
+				Invoke Str_compare,
+						ADDR paymentoptAH,
+						ADDR paymentcmpBankHLB
+						JE validBank
+						
+				Invoke Str_compare,
+						ADDR paymentoptAH,
+						ADDR paymentcmpBankAMB
+						JE validBank
+						
+				Invoke Str_compare,
+						ADDR paymentoptAH,
+						ADDR paymentcmpBankUOB
+						JE validBank
+						
+				Invoke Str_compare,
+						ADDR paymentoptAH,
+						ADDR paymentcmpBankPBB
+						JE validBank
+						
+				Invoke Str_compare,
+						ADDR paymentoptAH,
+						ADDR paymentcmpBankCMB
+						JE validBank
+			
+				Invoke Str_compare,
+						ADDR paymentoptAH,
+						ADDR paymentcmpBankRHB
+						JE validBank
+									
+				Invoke Str_compare,
+						ADDR paymentoptAH,
+						ADDR paymentcmpBankABB
+						JE validBank	
+
+			mov eax,0				;Loop Again When Invalid Bank Type
+		.ENDW						;End While Loop
+
+		mov eax,100				;Stop Loop
+
+		.ELSE				;Error Message
+		Call Crlf
+		Call Crlf
+		Call Crlf
+		lea edx,paymentoptError
+		Call WriteString
+		mov eax,0			;Loop Again
+
+		.ENDIF
+
+		.UNTIL eax == 100
+		jmp quit
+
+paymentnotenough:
+		Call Crlf
+		Call Crlf
+		lea edx , errpaynotenough
+		call writestring
+		jmp err_paymentnotenough
+
+quit:
+	ret
+	payment_option endp
+
+	;-------------------------------------- invalid option --------------------------------------
+	;-------------------------------------- invalid user menu option --------------------------------------
+	invalidUser proc
+
+	invalidUserMenu:
+		Call Crlf
+		lea edx, optionErrMsg
+		Call WriteString
+		Call Crlf
+		Call Crlf
+		 lea edx,user3
+		Call WriteString
+		;Read Char
+		call ReadChar
+		call writechar
+		mov user4,al
+		Call Crlf
+
+        cmp user4, '1'					;compare user input with 1
+        je Userlogin					;jump to login_menu
+
+        cmp user4, '2'					;compare user input with 2
+        je mainmenu						;jump to main_menu
+
+		jmp invalidUser
+
+	UserLogin:
+		Call User_login
+		jmp quit
+
+	mainmenu:
+		jmp quit
+		
+	invalid_userMenu:
+		Call Crlf
+		jmp invalidUserMenu
+
+	 quit:
+		ret
+	invalidUser endp
+
+	;-------------------------------------- invalid main menu option --------------------------------------
+	invalidMain proc
+
+	invalidMainMenu:
+		Call Crlf
+		lea edx, optionErrMsg
+		Call WriteString
+		Call Crlf
+		Call Crlf
+		lea edx, menu4
+		Call WriteString
+		;Read Char
+		Call ReadChar
+		Call writechar
+		mov menu5,al
+		Call Crlf
+
+		cmp menu5, '1'					;compare user input with 1
+		je product_menu					;jump to product_menu
+
+		cmp menu5, '2'					;compare user input with 2
+		je grooming_menu				;jump to grooming_menu
+
+		cmp menu5, '3'					;compare user input with 3
+		je hotel_menu					;jump to hotel_menu
+
+		cmp menu5, 'q'					;compare user input with q
+		exit							;exit program
+
+		cmp menu5, 'Q'					;compare user input with Q
+		exit							;exit program
+
+	invalid_mainMenu:
+		Call Crlf
+		jmp invalidMainMenu
+
+	 quit:
+		ret
+	invalidMain endp
+	
+	;-------------------------------------- invalid product menu option --------------------------------------
+	invalidProduct proc
+
+	invalidProductMenu:
+		Call Crlf
+		lea edx, optionErrMsg
+		Call WriteString
+		Call Crlf
+		Call Crlf
+		lea edx,product4
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		call writechar
+		mov product5,al
+		Call Crlf	
+
+		cmp product5, '1'				;compare user input with 1
+		je food_menu					;jump to food_menu
+
+		cmp product5, '2'				;compare user input with 2
+		je toy_menu						;jump to toy_menu
+
+		cmp product5, '3'				;compare user input with 3
+		je accessory_menu				;jump to accessory menu
+
+		cmp product5, 'r'				;compare user input with r
+		je main_menu					;jump to main_menu
+
+		cmp product5, 'R'				;compare user input with R
+		je main_menu					;jump to main_menu
+
+		cmp product5, 'm'				;compare user input with r
+		je main_menu					;jump to main_menu
+
+		cmp product5, 'M'				;compare user input with R
+		je main_menu					;jump to main_menu
+
+	invalid_productMenu:
+		Call Crlf
+		jmp invalidProductMenu
+
+	 quit:
+		ret
+	invalidProduct endp
+
+	;-------------------------------------- Valid Bank ---------------------------------------
+	validBank proc
+		lea edx,promptCardNo
+		Call WriteString
+		mov  edx,OFFSET paymentoptAI
+        mov  ecx,MAX            ;buffer size - 1
+        call ReadString			;Read Account Number
+		Call Crlf
+
+		lea edx,promptDate
+		Call WriteString
+		mov  edx,OFFSET paymentoptAJ
+        mov  ecx,MAX            ;buffer size - 1
+        call ReadString			;Read Expiry Date
+		Call Crlf
+
+
+		lea edx,promptCV
+		Call WriteString
+		mov esi,0
+		.While esi < 3
+			Call ReadChar
+			mov paymentoptAK[esi], al
+			lea edx,paymentoptAK[esi]
+			Call WriteChar
+			inc esi
+		.Endw
+		Call ReadChar
+		
+		;Call ReadDec			;Read CVC
+		;mov paymentoptAK,eax 
+		Call Crlf
+
+
+
+		lea edx,paymentoptAL
+		Call WriteString
+		Call Crlf
+
+		Call Crlf
+		Call Crlf
+		Call Crlf
+
+		lea edx,paymentoptAM
+		Call WriteString
+		Call Crlf
+		
+		lea edx,paymentoptAN
+		Call WriteString
+		Call Crlf
+		
+		lea edx,paymentoptAO
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentoptAP
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentoptAQ
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentoptAR
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentoptAS
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentoptAT
+		Call WriteString
+		mov eax, 0
+		mov eax , totalprice
+		Call WriteDec
+		Call Crlf
+
+		lea edx,paymentoptAU
+		Call WriteString
+		Call Crlf
+
+		lea edx,paymentoptAV
+		Call WriteString
+		Call Crlf
+		ret
+	validBank endp
+	
+	;-------------------------------------- Bank Type Valid ----------------------------------
+	errorPayment proc
+			lea edx,paymentoptBankError
+			Call WriteString
+			Call Crlf
+			jmp	payment_option
+		ret
+	errorPayment endp
+	;-------------------------------------- main program --------------------------------------
+	main proc							;main program
+	INVOKE readmenuname
+	mov edx , 0
+	mov eax , 0
+	mov ecx , 0
+
+	mov ecx,5
+
+	;display login/ guest mode
+	Login:
+		mov ecx,5
+		INVOKE header
+		INVOKE user_menu
+
+		Call clrscr
+		cmp user4, '2'
+		je L1
+
+		Call clrscr
+		cmp loginstatus, 0				;compare login status
+		je Login
+	
+	;loop function
+	L1:
+		mov ecx,5
+		INVOKE main_menu
+		Call clrscr						;clear screen
+
+	err_display_asktobuyagain:
+		INVOKE display_asktobuyagain
+
+		cmp LoopA,'N'					;compare user input with N (capital letter for no)
+		je Lpayment							;stop program
+		cmp LoopA,'n'					;compare user input with n (small letter for no)
+		je Lpayment							;stop program
+
+		cmp LoopA,'Y'					;compare user input with Y (capital letter for yes)
+		je L1							;loop the program - jump back to main menu
+		cmp LoopA,'y'					;compare user input with y (small letter for yes)
+		je L1							;loop the program - jump back to main menu
+
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+		lea edx,loop2
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		jne err_display_asktobuyagain
+
+	Lpayment:
+		INVOKE payment_menu
+		INVOKE payment_option
+	
+	exit								;exit main program
+	main endp							;end of main program
+
+END main

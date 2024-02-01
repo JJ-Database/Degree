@@ -1,0 +1,92 @@
+Include Irvine32.inc
+.data
+	    ; Define constant strings for prompting the user to input their username and password
+        prompt_username BYTE "Enter your username (5 characters only): ", 0
+        prompt_password BYTE "Enter your password (8 characters only): ", 0
+
+        ; Define constant strings for indicating whether the login was successful or not
+        login_success BYTE "Login successful! Welcome to My Program.", 0
+        login_fail BYTE "Login failed! Incorrect username or password.", 0
+
+
+        ; Define the constant strings for the login menu
+        login_menu1 byte "--------------------------------------------------",0
+        login_menu2 byte "                  Welcome to My Program!              ",0
+        login_menu3 byte "Please login to continue:",0
+        login_menu4 byte "Username: ",0
+        login_menu5 byte "Password: ",0
+        login_menu6 byte "Login successful! Welcome to My Program.",0
+        login_menu7 byte "Login failed! Incorrect username or password.",0
+
+        MAX = 80                     ;max chars to read
+        Input1 byte MAX+1 Dup(?)
+        Input2 dword 0
+        Username byte "Admin",0
+        Password dword 12345678
+
+.code
+    login proc
+        lea edx,login_menu1
+        Call WriteString
+        Call Crlf
+        lea edx,login_menu2
+        Call WriteString
+        Call Crlf
+        lea edx,login_menu3
+        Call WriteString
+        Call Crlf
+        lea edx,login_menu4
+        Call WriteString
+        
+        mov  edx,OFFSET Input1
+        mov  ecx,MAX            
+        call ReadString
+
+        INVOKE Str_compare,
+              ADDR Input1,
+              ADDR Username
+
+        jne InvalidLogin
+
+        lea edx,login_menu5
+        Call WriteString
+        
+
+        Call ReadDec
+        mov Input2,eax
+        cmp Input2,12345678
+        jne InvalidLogin
+
+
+        lea edx,login_menu6
+        Call WriteString
+        Call Crlf
+        
+    ret
+
+    InvalidLogin proc
+        lea edx,login_menu7
+        Call WriteString
+        Call Crlf
+        jmp login
+
+    ret
+    InvalidLogin endp
+    login endp
+    main proc
+        invoke login
+
+    exit
+    main endp
+end main
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main() {
+	cout << "You are handsome boy.";
+	return 0;
+}

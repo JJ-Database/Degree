@@ -1,0 +1,44 @@
+Include Irvine32.inc
+.data
+	var1 byte "Enter your Choice: ",0
+	read byte ?
+	price dword 130,140
+
+.code
+	F1 proc
+		xor esi,esi
+		xor eax,eax
+		mov esi,OFFSET price
+		mov eax,[esi]
+		Call WriteDec
+	ret
+	F1 endp
+	main proc
+	lea edx,var1
+	Call WriteString
+	Call ReadChar
+	mov read,al
+
+	cmp read,'A'
+	je F1
+	cmp read,'B'
+	je C2
+
+
+
+
+	exit
+	C1:
+		xor esi,esi
+		xor eax,eax
+		mov esi,OFFSET price
+		mov eax,[esi]
+		Call WriteDec
+
+	C2:
+		lea esi,price[2]
+		mov eax,[esi]
+		Call WriteDec
+	
+	main endp
+end main

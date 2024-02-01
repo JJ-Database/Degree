@@ -1,0 +1,45 @@
+Class Diagram
+1st row - class name
+2nd - data field 
+3rd - Constructors and Methods
+
+circle1:Circle
+#After : is data type.
+
+
+Circle mycircle
+#Call Cycle
+c1 = new mycircle
+mycircle = newCircle(parameter)
+
+refer the objectname
+mycircle.radius = 5.0
+
+
+Create the mycircle (Class)
+
+
+constructor to create the object and initialize the value
+
+Circle x= new Circle();
+initialize the value inside the constructor
+x.radius = 5;
+x.color =blue;
+
+Default constructor
+
+Constructor
+-Special methods
+-has no return type, own void.
+-constuctor name must be same as class name 
+
+
+Scanner   scan = new Scanner(System.in)
+class_name (datatype)
+Object_Name
+keyword = new
+Constructor with arguement
+
+Class is a template of the object
+
+

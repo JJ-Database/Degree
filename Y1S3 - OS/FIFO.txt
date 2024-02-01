@@ -1,0 +1,9 @@
+F1 77777333
+F2 -0000055
+F3 --111112
+
+70107352
+*cycle = not in the process // Page Fault
+*one column run one time one value come out all keep the same
+*If 3 column one have repeat which same just keep no need cycle
+*If 3 column no the exist new process then kick the longest process to replace

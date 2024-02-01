@@ -1,0 +1,1470 @@
+INCLUDE Irvine32.inc
+.data
+	;-------------------------------------- header --------------------------------------
+	MAX = 20
+	header1 byte "                                       =================================================================                   ",0
+	header2 byte "                                                               Cat & Dog Pet Shop                                          ",0
+	header3 byte "                                       =================================================================                   ",0
+
+	;-------------------------------------- login & sign up --------------------------------------
+	;user menu - choose to login or sign up
+    user byte "                                                 Login / Sign Up for Staff",0
+    user1 byte "                                                 1. Login",0
+    user2 byte "                                                 2. Sign Up",0
+    user3 byte "                                                 Enter your choice: "
+    user4 byte  ?
+
+	;-------------------------------------- login --------------------------------------
+    ;login menu - login for existing users
+    login byte "                                                 Login",0
+    login1 byte "                                                 Enter username: ",0
+    login2 byte ?
+    login3 byte "                                                 Enter password: ",0
+    login4 byte ?
+
+	;-------------------------------------- sign up --------------------------------------
+    ;sign up menu - sign up for new users
+    signup byte "                                                 Sign Up",0
+    signup1 byte "                                                 Enter username: ",0
+    signup2 byte    ?
+    signup3 byte "                                                 Enter password: ",0
+    signup4 byte    ?
+
+	;-------------------------------------- main menu --------------------------------------
+	;main menu - display main menu of pet shop
+	menu byte "                                                 Main Menu:",0
+	menu1 byte "                                                 1. Pet Products",0
+	menu2 byte "                                                 2. Pet Grooming",0
+	menu3 byte "                                                 3. Pet Hotel",0
+	menu4 byte "                                                 Enter your choice: ",0
+	menu5 byte	?
+
+	;-------------------------------------- products --------------------------------------
+	;product menu - display pet products in 2 catagories
+	product byte "                                                 Pet Products:",0
+	product1 byte "                                                 1. Food",0
+	product2 byte "                                                 2. Toy",0
+	product3 byte "                                                 3. Accessories",0
+	product4 byte "                                                 Enter your choice: ",0
+	product5 byte	?
+
+	;-------------------------------------- gromming --------------------------------------
+	;grooming menu - display pet grooming menu
+	grooming byte "					Pet Grooming:",0
+	grooming1 byte "					Basic Service: Shampoo  + Blow Dry + Nail Ears",0
+	grooming2 byte "					Special Service: Shampoo + Blowdry + Nail + Ears + Massage + Cologne + Hair Cut",0
+	grooming3 byte "					Small: < than 10kg",0
+	grooming4 byte "					Medium: 11 - 26kg",0
+	grooming5 byte "					Large: 27 - 45kg",0
+	grooming6 byte "					1. Basic grooming(small)  RM 40",0
+	grooming7 byte "					2. Basic grooming(medium) RM 75",0
+	grooming8 byte "					3. Basic grooming(large)  RM 105",0
+	grooming9 byte "					4. Special grooming(small) RM 95",0
+	grooming10 byte "					5. Special grooming(medium) RM 180",0
+	grooming11 byte "					6. Special grooming(large) RM 195",0
+	grooming12 byte "					Enter your choice: ",0
+	grooming13 byte	?
+	grooming14 byte "					Enter the quantity: ",0
+	grooming15 dword 0
+
+	;Item Name
+	groomingA byte "Basic grooming(small)",0
+	groomingB byte "Basic grooming(medium)",0
+	groomingC byte "Basic grooming(large)",0
+	groomingD byte "Special grooming(small)",0
+	groomingE byte "Special grooming(medium)",0
+	groomingF byte "Special grooming(large)",0
+
+	;Item Price
+	groomingG dword 40
+	groomingH dword 75
+	groomingI dword 105
+	groomingJ dword 95
+	groomingK dword 180
+	groomingL dword 195
+
+	;Grooming Record
+	groomingPrice dword 0
+	groomingQuantity dword 0
+	groomingItem byte 25 dup('0')
+	groomingTotal dword 0
+
+
+	;-------------------------------------- hotel --------------------------------------
+	;hotel_menu - display pet hotel menu
+	hotel byte "                                                 Pet Hotel:",0
+	hotel1 byte "                                                 1. Puppy/Kitten RM30/day",0
+	hotel2 byte "                                                 2. Adult Dog/Cat RM40/day",0
+	hotel3 byte "                                                 3. Large Breed Dog RM60/day",0
+	hotel4 byte "                                                 Enter your choice: ",0
+	hotel5 byte	?
+	hotel6 byte "                                                 Enter how many days would like to stay: ",0
+	hotel7 dword 0
+
+	;Item Name
+	hotelA byte "Puppy/Kitten",0
+	hotelB byte "Adult Dog/Cat",0
+	hotelC byte "Large Breed Dog",0
+
+	;Item Price
+	hotelD dword 30
+	hotelE dword 40
+	hotelF dword 60
+
+	;Hotel Record
+	hotelPrice dword 0
+	hotelQuantity dword 0
+	hotelItem byte 25 dup('0')
+	hotelTotal dword 0
+
+	
+	;-------------------------------------- food --------------------------------------
+	;food menu - display a list of pet food (under pet products)
+	food byte "                                                 Pet Food:",0
+	food1 byte "                                                 1. Royal Canin 12kg (Dog) RM350.00",0
+	food2 byte "                                                 2. Burp 12kg (Adult Dog) RM288.00",0
+	food3 byte "                                                 3. Mhims 375g (Puppy) RM18.00",0
+	food4 byte "                                                 4. Royal Canin 12.2kg (Cat) RM87.00",0
+	food5 byte "                                                 5. Science Diet 3.2kg (Adult Cat) RM157.00",0
+	food6 byte "                                                 6. Whiskas 3kg (Cat) RM39.00",0
+	food7 byte "                                                 Enter purchase item: ",0
+	food8 byte ?
+	food9 byte "                                                 Enter the quantity: ",0
+	food10 dword 0
+
+	;Food Item
+	foodA byte "Royal Canin 12kg (Dog)",0
+	foodB byte "Burp 12kg (Adult Dog)",0
+	foodC byte "Mhims 375g (Puppy)",0
+	foodD byte "Royal Canin 12.2kg (Cat)",0
+	foodE byte "Science Diet 3.2kg (Adult Cat)",0
+	foodF byte "Whiskas 3kg (Cat)",0
+
+	;Food Price
+	foodG dword 350
+	foodH dword 288
+	foodI dword 18
+	foodJ dword 87
+	foodK dword 157
+	foodL dword 39
+	
+	;Record Food
+	foodPrice dword 0
+	foodQuantity dword 0
+	foodItem byte 25 dup('0')
+	foodTotal dword 0
+
+	;-------------------------------------- toy --------------------------------------
+	;toy_menu - display a list of pet toy (under products)
+	toy byte "                                                 Pet Toys:",0
+	toy1 byte "                                                 1. Cat Tree",0
+	toy2 byte "                                                 2. Plush Toy",0
+	toy3 byte "                                                 3. Chew Toy",0
+	toy4 byte "                                                 4. Interactive Toy",0
+	toy5 byte "                                                 5. Ball Toy",0
+	toy6 byte "                                                 Enter your choice: ",0
+	toy7 byte	?
+
+;-------------------------------------- accessory --------------------------------------
+	;accessory_menu - display a list of pet accessories (under products)
+	acc byte "                                                 Pet Accessories:",0
+	acc1 byte "                                                 1. Litter Tray (Cat) RM95.00",0
+	acc2 byte "                                                 2. Elasticised Litter Tray Liners - 15pcs (Cat) RM32.00",0
+	acc3 byte "                                                 3. Litter Scoop Micro (Cat) RM6.00",0
+	acc4 byte "                                                 4. No More Litterbox Odours - Powder 500g (Cat/Dog) RM42.00",0
+	acc5 byte "                                                 5. Pet Toilet with Mesh Plate (Dog) RM80",0
+	acc6 byte "                                                 6. Wee Pads 25pcs - Large (Dog) RM69.00",0
+	acc7 byte "                                                 Enter your choice: ",0
+	acc8 byte	?
+	acc9 byte "                                                 Enter the quantity: ",0
+	acc10 dword 0
+
+	
+	;Acc Item
+	accA byte "Litter Tray (Cat)",0
+	accB byte "Elasticised Litter Tray Liners - 15pcs (Cat)",0
+	accC byte "Litter Scoop Micro (Cat)",0
+	accD byte "No More Litterbox Odours - Powder 500g (Cat/Dog)",0
+	accE byte "Pet Toilet with Mesh Plate (Dog)",0
+	accF byte "Wee Pads 25pcs - Large (Dog)",0
+
+	;Acc Price
+	accG dword 95
+	accH dword 32
+	accI dword 6
+	accJ dword 42
+	accK dword 80
+	accL dword 69
+	
+	;Record Acc
+	accPrice dword 0
+	accQuantity dword 0
+	accItem byte 25 dup('0')
+	accTotal dword 0
+
+	;-------------------------------------- loop --------------------------------------
+	Loop1 byte "                                                 Do you want to continue purchase? (Y/N)",0
+	LoopA byte ?
+	Loop2 byte "                                                 Invalid Input Command. Pleas Try again......"
+
+	;-------------------------------------- Record Item --------------------------------------
+	RecordItem byte 30 dup(0)
+	RecordPrice dword 30 dup(0)
+	RecordQuantity dword 30 dup(0)
+	RecordSubtotal dword 30 dup(0)
+	RecordCount dword 0
+	RecordSequence dword 0					;count * 4
+
+	CurrentItem byte 30 dup(0)
+	CurrentPrice dword 30 dup(0)
+	CurrentQuantity dword 30 dup(0)
+
+	;-------------------------------------- Payment --------------------------------------
+	payment byte "                                       ==============================================================================                 ",0
+	payment1 byte "                                                                      Payment Page                                                    ",0
+	payment2 byte "                                       ==============================================================================                 ",0
+	payment3 byte "                                       Item Name:                    Price:         Quantity:         Subtotal:                               ",0
+	payment4 byte "                                       ",0
+	payment5 byte "         ",0
+	payment6 byte "               "
+
+.code
+	header proc							;start header function
+		Call Crlf
+		lea edx,header1
+		Call WriteString
+		Call Crlf
+		lea edx,header2
+		Call WriteString
+		Call Crlf
+		lea edx,header3
+		Call WriteString
+		Call Crlf
+	ret
+	header endp							;end header function
+
+	user_menu proc						;start user menu
+        Call Crlf
+        lea edx,user
+        Call WriteString
+        Call Crlf
+        lea edx,user1
+        Call WriteString
+        Call Crlf
+        lea edx,user2
+		Call WriteString
+        Call Crlf
+        lea edx,user3
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov user4,al
+		Call Crlf
+
+        cmp user4, '1'					;compare user input with 1
+        je login_menu					;jump to login_menu
+
+        cmp user4, '2'					;compare user input with 2
+        je signup_menu					;jump to signup_menu
+
+    ret
+    user_menu endp						;end user menu
+        
+    login_menu proc						;start login menu
+        Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+        lea edx,login
+        Call WriteString
+        Call Crlf
+        lea edx,login1
+        Call WriteString
+		;Read Char
+		call ReadString					;read input for existing username
+		mov login2,al
+
+        lea edx,login3
+        Call WriteString
+        ;Read Char
+		call ReadString					;read input for existing password
+		mov login4,al
+
+    ret
+    login_menu endp						;end login menu
+
+    signup_menu proc					;start sign up menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+        lea edx,signup
+        Call WriteString
+        Call Crlf
+        lea edx,signup1
+        Call WriteString
+		;Read Char
+		call ReadString					;read new username
+		mov signup2,al
+
+        lea edx,signup3
+        Call WriteString
+        ;Read Char
+		call ReadString					;read new password
+		mov signup4,al
+
+    ret
+    signup_menu endp					;end sign up menu
+		
+	main_menu proc						;start main menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,menu
+		Call WriteString
+		Call Crlf
+		lea edx,menu1
+		Call WriteString
+		Call Crlf
+		lea edx,menu2
+		Call WriteString
+		Call Crlf
+		lea edx,menu3
+		Call WriteString
+		Call Crlf
+		lea edx,menu4
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov menu5,al
+		Call Crlf
+
+		cmp menu5, '1'					;compare user input with 1
+		je product_menu					;jump to product_menu
+
+		cmp menu5, '2'					;compare user input with 2
+		je grooming_menu				;jump to grooming_menu
+
+		cmp menu5, '3'					;compare user input with 3
+		je hotel_menu					;jump to hotel_menu
+	ret
+	main_menu endp						;end main menu
+
+	product_menu proc					;start pet product menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,product
+		Call WriteString
+		Call Crlf
+		lea edx,product1
+		Call WriteString
+		Call Crlf
+		lea edx,product2
+		Call WriteString
+		Call Crlf
+		lea edx,product3
+		Call WriteString
+		Call Crlf
+		lea edx,product4
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		mov product5,al
+		Call Crlf	
+
+		cmp product5, '1'				;compare user input with 1
+		je food_menu					;jump to food_menu
+
+		cmp product5, '2'				;compare user input with 2
+		je toy_menu						;jump to toy_menu
+
+		cmp product5, '3'				;compare user input with 3
+		je accessory_menu				;jump to accessory menu
+	ret
+	product_menu endp					;end pet product menu
+
+	grooming_menu proc					;start pet grooming menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming
+		Call WriteString
+		Call Crlf
+		lea edx,grooming1
+		Call WriteString
+		Call Crlf
+		lea edx,grooming2
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming3
+		Call WriteString
+		Call Crlf
+		lea edx,grooming4
+		Call WriteString
+		Call Crlf
+		lea edx,grooming5
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		lea edx,grooming6
+		Call WriteString
+		Call Crlf
+		lea edx,grooming7
+		Call WriteString
+		Call Crlf
+		lea edx,grooming8
+		Call WriteString
+		Call Crlf
+		lea edx,grooming9
+		Call WriteString
+		Call Crlf
+		lea edx,grooming10
+		Call WriteString
+		Call Crlf
+		lea edx,grooming11
+		Call WriteString
+		Call Crlf
+		lea edx,grooming12
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		mov grooming13,al					
+		Call Crlf	
+		lea edx,grooming14
+		Call WriteString
+		Call ReadDec					;read Quantity
+		mov grooming15,eax
+
+		cmp grooming13,'1'
+		je call1
+		cmp grooming13,'2'
+		je G2
+		cmp grooming13,'3'
+		je G3
+		cmp grooming13,'4'
+		je G4
+		cmp grooming13,'5'
+		je G5
+		cmp grooming13,'6'
+		je G6
+
+call1: call G1
+
+
+
+	ret
+	grooming_menu endp					;end pet grooming menu
+
+	hotel_menu proc						;start pet hotel menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,hotel
+		Call WriteString
+		Call Crlf
+		lea edx,hotel1
+		Call WriteString
+		Call Crlf
+		lea edx,hotel2
+		Call WriteString
+		Call Crlf
+		lea edx,hotel3
+		Call WriteString
+		Call Crlf
+		lea edx,hotel4
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		mov hotel5,al
+		Call Crlf	
+		lea edx,hotel6
+		Call WriteString
+		;Read Quantity
+		Call ReadDec
+		mov hotel7,eax
+
+		cmp hotel5,'1'
+		je H1
+		cmp hotel5,'2'
+		je H2
+		cmp hotel5,'3'
+		je H3
+	ret
+	hotel_menu endp						;end pet hotel menu
+
+	food_menu proc						;start pet food menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,food
+		Call WriteString
+		Call Crlf
+		lea edx,food1
+		Call WriteString
+		Call Crlf
+		lea edx,food2
+		Call WriteString
+		Call Crlf
+		lea edx,food3
+		Call WriteString
+		Call Crlf
+		lea edx,food4
+		Call WriteString
+		Call Crlf
+		lea edx,food5
+		Call WriteString
+		Call Crlf
+		lea edx,food6
+		Call WriteString
+		Call Crlf
+		lea edx,food7
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		mov food8,al
+		Call Crlf	
+		lea edx,food9
+		Call WriteString
+		;Read Quantity
+		Call ReadDec
+		mov food10,eax
+
+		cmp food8,'1'
+		je F1
+		cmp food8,'2'
+		je F2
+		cmp food8,'3'
+		je F3
+		cmp food8,'4'
+		je F4
+		cmp food8,'5'
+		je F5
+		cmp food8,'6'
+		je F6
+
+	ret
+	food_menu endp		
+
+	toy_menu proc						;start toy menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,toy
+		Call WriteString
+		Call Crlf
+		lea edx,toy1
+		Call WriteString
+		Call Crlf
+		lea edx,toy2
+		Call WriteString
+		Call Crlf
+		lea edx,toy3
+		Call WriteString
+		Call Crlf
+		lea edx,toy4
+		Call WriteString
+		Call Crlf
+		lea edx,toy5
+		Call WriteString
+		Call Crlf
+		lea edx,toy6
+		Call WriteString
+		;Read Char
+		call ReadChar					;read user input
+		mov toy7,al
+		Call Crlf	
+
+	ret
+	toy_menu endp						;end toy menu
+
+accessory_menu proc					;start pet accessories menu
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+
+		lea edx,acc
+		Call WriteString
+		Call Crlf
+		lea edx,acc1
+		Call WriteString
+		Call Crlf
+		lea edx,acc2
+		Call WriteString
+		Call Crlf
+		lea edx,acc3
+		Call WriteString
+		Call Crlf
+		lea edx,acc4
+		Call WriteString
+		Call Crlf
+		lea edx,acc5
+		Call WriteString
+		Call Crlf
+		lea edx,acc6
+		Call WriteString
+		Call Crlf
+		lea edx,acc7
+		Call WriteString
+		;Read Char
+		call ReadChar
+		mov acc8,al
+		Call Crlf	
+		lea edx,acc9
+		Call WriteString
+		Call ReadDec
+		mov acc10,eax
+
+		cmp acc8,'1'
+		je A1
+		cmp acc8,'2'
+		je A2
+		cmp acc8,'3'
+		je A3
+		cmp acc8,'4'
+		je A4
+		cmp acc8,'5'
+		je A5
+		cmp acc8,'6'
+		je A6
+
+
+	ret
+	accessory_menu endp					;end pet accessories menu
+
+	;======================== Decision Grooming ===========================
+	G1 proc
+		xor eax,eax
+		mov ecx , LENGTHOF groomingA
+		mov esi , 0
+
+		here:
+		
+		mov al,groomingA[esi]		;Item name
+		call writechar
+		mov groomingItem[esi],al
+		inc esi
+		loop here
+		mov groomingItem[esi],'0' 
+		
+
+		
+		;lea edx,groomingItem
+		;Call WriteString
+
+		;==============================================
+		mov ecx , LENGTHOF groomingItem
+		mov esi , 0
+		xxx: 
+		mov	al , groomingItem[esi]
+		call writechar
+		inc esi
+		loop xxx
+		;==============================================
+
+
+		mov eax,[groomingG]		;Item price
+		mov groomingPrice,eax
+
+		mov eax,[grooming15]	;Item Quantity
+		mov groomingQuantity,eax
+
+		mul [groomingG]
+		mov groomingTotal,eax
+		
+		
+	ret 
+	G1 endp
+	G2 proc
+		xor eax,eax
+		mov ecx , LENGTHOF groomingB
+		mov esi , 0
+
+		here:
+		
+		mov al,groomingB[esi]		;Item name
+		call writechar
+		mov groomingItem[esi],al
+		inc esi
+		loop here
+		mov groomingItem[esi],'0' 
+		
+
+		
+		;lea edx,groomingItem
+		;Call WriteString
+
+		;==============================================
+		mov ecx , LENGTHOF groomingItem
+		mov esi , 0
+		xxx: 
+		mov	al , groomingItem[esi]
+		call writechar
+		inc esi
+		loop xxx
+		;==============================================
+
+
+		mov eax,[groomingH]		;Item price
+		mov groomingPrice,eax
+
+		mov eax,[grooming15]	;Item Quantity
+		mov groomingQuantity,eax
+
+		mul [groomingH]
+		mov groomingTotal,eax
+	ret
+	G2 endp
+	G3 proc
+		xor eax,eax
+		mov ecx , LENGTHOF groomingC
+		mov esi , 0
+
+		here:
+		
+		mov al,groomingC[esi]		;Item name
+		call writechar
+		mov groomingItem[esi],al
+		inc esi
+		loop here
+		mov groomingItem[esi],'0' 
+		
+
+		
+		;lea edx,groomingItem
+		;Call WriteString
+
+		;==============================================
+		mov ecx , LENGTHOF groomingItem
+		mov esi , 0
+		xxx: 
+		mov	al , groomingItem[esi]
+		call writechar
+		inc esi
+		loop xxx
+		;==============================================
+
+
+		mov eax,[groomingI]		;Item price
+		mov groomingPrice,eax
+
+		mov eax,[grooming15]	;Item Quantity
+		mov groomingQuantity,eax
+
+		mul [groomingI]
+		mov groomingTotal,eax
+	ret
+	G3 endp
+	G4 proc
+		xor eax,eax
+		mov ecx , LENGTHOF groomingD
+		mov esi , 0
+
+		here:
+		
+		mov al,groomingD[esi]		;Item name
+		call writechar
+		mov groomingItem[esi],al
+		inc esi
+		loop here
+		mov groomingItem[esi],'0' 
+		
+
+		
+		;lea edx,groomingItem
+		;Call WriteString
+
+		;==============================================
+		mov ecx , LENGTHOF groomingItem
+		mov esi , 0
+		xxx: 
+		mov	al , groomingItem[esi]
+		call writechar
+		inc esi
+		loop xxx
+		;==============================================
+
+
+		mov eax,[groomingJ]		;Item price
+		mov groomingPrice,eax
+
+		mov eax,[grooming15]	;Item Quantity
+		mov groomingQuantity,eax
+
+		mul [groomingJ]
+		mov groomingTotal,eax
+	ret
+	G4 endp
+	G5 proc
+		xor eax,eax
+		mov ecx , LENGTHOF groomingE
+		mov esi , 0
+
+		here:
+		
+		mov al,groomingE[esi]		;Item name
+		call writechar
+		mov groomingItem[esi],al
+		inc esi
+		loop here
+		mov groomingItem[esi],'0' 
+		
+
+		
+		;lea edx,groomingItem
+		;Call WriteString
+
+		;==============================================
+		mov ecx , LENGTHOF groomingItem
+		mov esi , 0
+		xxx: 
+		mov	al , groomingItem[esi]
+		call writechar
+		inc esi
+		loop xxx
+		;==============================================
+
+
+		mov eax,[groomingK]		;Item price
+		mov groomingPrice,eax
+
+		mov eax,[grooming15]	;Item Quantity
+		mov groomingQuantity,eax
+
+		mul [groomingK]
+		mov groomingTotal,eax
+	ret
+	G5 endp
+	G6 proc
+		xor eax,eax
+		mov ecx , LENGTHOF groomingF
+		mov esi , 0
+
+		here:
+		
+		mov al,groomingF[esi]		;Item name
+		call writechar
+		mov groomingItem[esi],al
+		inc esi
+		loop here
+		mov groomingItem[esi],'0' 
+		
+
+		
+		;lea edx,groomingItem
+		;Call WriteString
+
+		;==============================================
+		mov ecx , LENGTHOF groomingItem
+		mov esi , 0
+		xxx: 
+		mov	al , groomingItem[esi]
+		call writechar
+		inc esi
+		loop xxx
+		;==============================================
+
+
+		mov eax,[groomingL]		;Item price
+		mov groomingPrice,eax
+
+		mov eax,[grooming15]	;Item Quantity
+		mov groomingQuantity,eax
+
+		mul [groomingL]
+		mov groomingTotal,eax
+	ret
+	G6 endp
+
+	;===================== Decision Food ======================
+	F1 proc
+		xor eax,eax
+		mov ecx , LENGTHOF foodA
+		mov esi , 0
+
+		here:
+		
+		mov al,foodA[esi]		;Item name
+		call writechar
+		mov foodItem[esi],al
+		inc esi
+		loop here
+		mov foodItem[esi],'0' 
+
+
+		mov eax,[foodG]		;Item price
+		mov foodPrice,eax
+
+		mov eax,[food10]	;Item Quantity
+		mov foodQuantity,eax
+
+		mul [foodG]
+		mov foodTotal,eax
+		
+	ret
+	F1 endp
+
+	F2 proc
+		xor eax,eax
+		mov ecx , LENGTHOF foodB
+		mov esi , 0
+
+		here:
+		
+		mov al,foodB[esi]		;Item name
+		call writechar
+		mov foodItem[esi],al
+		inc esi
+		loop here
+		mov foodItem[esi],'0' 
+
+
+		mov eax,[foodH]		;Item price
+		mov foodPrice,eax
+
+		mov eax,[food10]	;Item Quantity
+		mov foodQuantity,eax
+
+		mul [foodH]
+		mov foodTotal,eax
+
+	ret
+	F2 endp
+
+	F3 proc
+		xor eax,eax
+		mov ecx , LENGTHOF foodC
+		mov esi , 0
+
+		here:
+		
+		mov al,foodC[esi]		;Item name
+		call writechar
+		mov foodItem[esi],al
+		inc esi
+		loop here
+		mov foodItem[esi],'0' 
+
+
+		mov eax,[foodI]		;Item price
+		mov foodPrice,eax
+
+		mov eax,[food10]	;Item Quantity
+		mov foodQuantity,eax
+
+		mul [foodI]
+		mov foodTotal,eax
+
+	ret
+	F3 endp
+
+	F4 proc
+		xor eax,eax
+		mov ecx , LENGTHOF foodD
+		mov esi , 0
+
+		here:
+		
+		mov al,foodD[esi]		;Item name
+		call writechar
+		mov foodItem[esi],al
+		inc esi
+		loop here
+		mov foodItem[esi],'0' 
+
+
+		mov eax,[foodJ]		;Item price
+		mov foodPrice,eax
+
+		mov eax,[food10]	;Item Quantity
+		mov foodQuantity,eax
+
+		mul [foodJ]
+		mov foodTotal,eax
+	ret
+	F4 endp
+
+	F5 proc
+		xor eax,eax
+		mov ecx , LENGTHOF foodE
+		mov esi , 0
+
+		here:
+		
+		mov al,foodE[esi]		;Item name
+		call writechar
+		mov foodItem[esi],al
+		inc esi
+		loop here
+		mov foodItem[esi],'0' 
+
+
+		mov eax,[foodK]		;Item price
+		mov foodPrice,eax
+
+		mov eax,[food10]	;Item Quantity
+		mov foodQuantity,eax
+
+		mul [foodK]
+		mov foodTotal,eax
+	ret
+	F5 endp
+
+	F6 proc
+				xor eax,eax
+		mov ecx , LENGTHOF foodF
+		mov esi , 0
+
+		here:
+		
+		mov al,foodF[esi]		;Item name
+		call writechar
+		mov foodItem[esi],al
+		inc esi
+		loop here
+		mov foodItem[esi],'0' 
+
+
+		mov eax,[foodL]		;Item price
+		mov foodPrice,eax
+
+		mov eax,[food10]	;Item Quantity
+		mov foodQuantity,eax
+
+		mul [foodL]
+		mov foodTotal,eax
+	ret
+	F6 endp
+
+	;====================== Accessories Decision ==========================
+	A1 proc
+		xor eax,eax
+		mov ecx , LENGTHOF accA
+		mov esi , 0
+
+		here:
+		
+		mov al,accA[esi]		;Item name
+		call writechar
+		mov accItem[esi],al
+		inc esi
+		loop here
+		mov accItem[esi],'0' 
+
+
+		mov eax,[accG]		;Item price
+		mov accPrice,eax
+
+		mov eax,[acc10]	;Item Quantity
+		mov accQuantity,eax
+
+		mul [accG]
+		mov accTotal,eax
+	ret
+	A1 endp
+	A2 proc
+		xor eax,eax
+		mov ecx , LENGTHOF accB
+		mov esi , 0
+
+		here:
+		
+		mov al,accB[esi]		;Item name
+		call writechar
+		mov accItem[esi],al
+		inc esi
+		loop here
+		mov accItem[esi],'0' 
+
+
+		mov eax,[accH]		;Item price
+		mov accPrice,eax
+
+		mov eax,[acc10]	;Item Quantity
+		mov accQuantity,eax
+
+		mul [accH]
+		mov accTotal,eax
+	ret
+	A2 endp
+	A3 proc
+		xor eax,eax
+		mov ecx , LENGTHOF accC
+		mov esi , 0
+
+		here:
+		
+		mov al,accC[esi]		;Item name
+		call writechar
+		mov accItem[esi],al
+		inc esi
+		loop here
+		mov accItem[esi],'0' 
+
+
+		mov eax,[accI]		;Item price
+		mov accPrice,eax
+
+		mov eax,[acc10]	;Item Quantity
+		mov accQuantity,eax
+
+		mul [accI]
+		mov accTotal,eax
+	ret
+	A3 endp
+	A4 proc
+		xor eax,eax
+		mov ecx , LENGTHOF accD
+		mov esi , 0
+
+		here:
+		
+		mov al,accD[esi]		;Item name
+		call writechar
+		mov accItem[esi],al
+		inc esi
+		loop here
+		mov accItem[esi],'0' 
+
+
+		mov eax,[accJ]		;Item price
+		mov accPrice,eax
+
+		mov eax,[acc10]	;Item Quantity
+		mov accQuantity,eax
+
+		mul [accJ]
+		mov accTotal,eax
+	ret
+	A4 endp
+	A5 proc
+		xor eax,eax
+		mov ecx , LENGTHOF accE
+		mov esi , 0
+
+		here:
+		
+		mov al,accE[esi]		;Item name
+		call writechar
+		mov accItem[esi],al
+		inc esi
+		loop here
+		mov accItem[esi],'0' 
+
+
+		mov eax,[accK]		;Item price
+		mov accPrice,eax
+
+		mov eax,[acc10]	;Item Quantity
+		mov accQuantity,eax
+
+		mul [accK]
+		mov accTotal,eax
+	ret
+	A5 endp
+	A6 proc
+		xor eax,eax
+		mov ecx , LENGTHOF accF
+		mov esi , 0
+
+		here:
+		
+		mov al,accF[esi]		;Item name
+		call writechar
+		mov accItem[esi],al
+		inc esi
+		loop here
+		mov accItem[esi],'0' 
+
+
+		mov eax,[accL]		;Item price
+		mov accPrice,eax
+
+		mov eax,[acc10]	;Item Quantity
+		mov accQuantity,eax
+
+		mul [accL]
+		mov accTotal,eax
+	ret
+	A6 endp
+
+	;============================== Hotel Decision =========================
+	H1 proc
+		xor eax,eax
+		mov ecx , LENGTHOF hotelA
+		mov esi , 0
+
+		here:
+		
+		mov al,hotelA[esi]		;Item name
+		call writechar
+		mov hotelItem[esi],al
+		inc esi
+		loop here
+		mov hotelItem[esi],'0' 
+
+
+		mov eax,[hotelD]		;Item price
+		mov hotelPrice,eax
+
+		mov eax,[hotel7]	;Item Quantity
+		mov hotelQuantity,eax
+
+		mul [hotelD]
+		mov hotelTotal,eax
+	ret
+	H1 endp
+
+	H2 proc
+		xor eax,eax
+		mov ecx , LENGTHOF hotelB
+		mov esi , 0
+
+		here:
+		
+		mov al,hotelB[esi]		;Item name
+		call writechar
+		mov hotelItem[esi],al
+		inc esi
+		loop here
+		mov hotelItem[esi],'0' 
+
+
+		mov eax,[hotelE]		;Item price
+		mov hotelPrice,eax
+
+		mov eax,[hotel7]	;Item Quantity
+		mov hotelQuantity,eax
+
+		mul [hotelE]
+		mov hotelTotal,eax
+	ret
+	ret
+	H2 endp
+
+	H3 proc
+		xor eax,eax
+		mov ecx , LENGTHOF hotelC
+		mov esi , 0
+
+		here:
+		
+		mov al,hotelC[esi]		;Item name
+		call writechar
+		mov hotelItem[esi],al
+		inc esi
+		loop here
+		mov hotelItem[esi],'0' 
+
+
+		mov eax,[hotelF]		;Item price
+		mov hotelPrice,eax
+
+		mov eax,[hotel7]	;Item Quantity
+		mov hotelQuantity,eax
+
+		mul [hotelF]
+		mov hotelTotal,eax
+	ret
+	ret
+	H3 endp
+	;===============================================
+
+	looping proc						;start looping function
+		Call clrscr						;clear screen
+		Call Crlf
+		Call Crlf
+		lea edx,Loop1
+		Call WriteString
+		Call ReadChar					;read user input
+		mov LoopA,al
+		Call Crlf
+		Call Crlf
+
+		cmp LoopA,'N'					;compare user input with N (capital letter for no)
+		je payment_menu							;payment program
+		cmp LoopA,'n'					;compare user input with n (small letter for no)
+		je payment_menu							;payment program
+
+		cmp LoopA,'Y'					;compare user input with Y (capital letter for yes)
+		je main_menu					;loop the program - jump back to main menu
+		cmp LoopA,'y'					;compare user input with y (small letter for yes)
+		je main_menu					;loop the program - jump back to main menu
+
+		lea edx,loop2
+		Call WriteString
+		Call Crlf
+		Call Crlf
+
+		jne looping
+		
+	ret
+	looping endp						;end looping function
+
+	stop proc
+		mov ecx,1
+	ret
+	stop endp
+
+	payment_menu proc
+        Call clrscr		
+		Call Crlf
+		Call Crlf
+		lea edx,payment
+		Call WriteString
+		Call Crlf
+
+		lea edx,payment1
+		Call WriteString
+		Call Crlf
+
+		lea edx,payment2
+		Call WriteString
+		Call Crlf
+
+		lea edx,payment3
+		Call WriteString
+		Call Crlf
+
+		
+		;============================
+		lea edx, payment4
+		Call WriteString
+		lea edx,groomingItem
+		Call WriteString
+
+		lea edx, payment5
+		Call WriteString
+
+		mov eax,[groomingPrice]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+
+		mov eax,[groomingQuantity]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+
+		mov eax,[groomingTotal]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+		Call Crlf
+		;============================
+		lea edx, payment4
+		Call WriteString
+		lea edx,foodItem
+		Call WriteString
+
+		lea edx, payment5
+		Call WriteString
+
+		mov eax,[foodPrice]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+
+		mov eax,[foodQuantity]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+
+		mov eax,[foodTotal]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+		Call Crlf
+		;============================
+		;============================
+		lea edx, payment4
+		Call WriteString
+		lea edx,accItem
+		Call WriteString
+
+		lea edx, payment5
+		Call WriteString
+
+		mov eax,[accPrice]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+
+		mov eax,[accQuantity]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+
+		mov eax,[accTotal]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+		Call Crlf
+		;============================
+		;============================
+		lea edx, payment4
+		Call WriteString
+		lea edx,hotelItem
+		Call WriteString
+
+		lea edx, payment5
+		Call WriteString
+
+		mov eax,[hotelPrice]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+
+		mov eax,[hotelQuantity]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+
+		mov eax,[hotelTotal]
+		Call WriteDec
+		lea edx, payment6
+		Call WriteString
+		Call Crlf
+		;============================
+
+		exit
+		payment_menu endp
+			
+		
+		
+		
+
+	main proc							;main program
+	mov ecx,5
+
+	;display login/ signup
+	LoginSignup:
+		mov ecx,5
+		INVOKE header
+		INVOKE user_menu
+	
+	;loop function
+	L1:
+		mov ecx,5
+		INVOKE main_menu
+		INVOKE looping
+
+		Loop L1
+
+
+	
+	exit
+
+		
+	;exit main program
+	main endp							;end of main program
+END main

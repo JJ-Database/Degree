@@ -1,0 +1,121 @@
+Starvation - Some process allow to get the priority to run but some which have the lesser priority like (Priority Scheduling) may ever and never get the CPU Burst time.
+
+DeadLock - The Process Concurrency is happenning but all of the process cannot be run due to the traffic overload in memory.
+
+Interrupt Handler - Interrupt some event and temporary move the interrupt event to memory. Then, run/load the process which be the next job incoming.
+
+*Recoverable = When executing something interrupt need to pass to I/O to complete the I/O modules execution after complete will Ready state again for waiting executing.
+
+Chap1
+Memory
+Device
+File
+
+Categories of OS 
+-Batch
+-Real-Time
+-Hybrid
+-Embedded
+-Interactive
+
+Interrupt Handling
+
+CPU Protection
+Memory Protection
+
+Chap2
+Process Transition (New->Ready->Running->Termination) <Waiting>
+PCB Context Switching
+
+Job Scheduler/Process Sceduler (Long/Medium/Short Scheduling)
+
+I/O Bound
+CPU Bound
+Resource Sharing
+
+Independent/dependent concurency process
+
+Chap3
+Scheduling algorithm
+
+Chap4
+MultiProcessing (Master/Slave and Symmetric)
+MultiTasking (One PC can run many programs at the same time)
+MultiProgramming (One or more user are share the resource and same memory)
+Concurent Processing Algorithm (CoBegin/CoEnd)
+
+
+Critical Session (make sure only one process using Burst Time)
+Remainder Session (Exit the Critical and waiting the queue for dispatch the Burst Time)
+
++Mutex
++Flag
++Buffer
+
+Chap5
+Purpose - How to solve the deadlock Problems
+Deadlock (The concurency process run with clash. Cannot run with successful. Keep waiting and waste the Burst Time.)
+Resource Allocation Graph (Hold and Request)
+
+Four Conditions for deadlock
+-Mutual Exclusion (Hold by a non-shared resources because it is only have read-only access///Not a Process)
+-Hold and Wait (One Resource Hold and Request simulteneously)
+-No Preemption (Which means hold and request is happening)
+-Circular Wait (Common Question In Exam -->  all process in the status which are hold and request the non-share resource)
+-Banker's Algorithm (Allocation/Max/Available/Needs)
+-Starvation (may the process occur only run the few process or only one which never be another process's turn.)
+
+Chap6
+Physical address (Which can translate form logical address and hold buy CPU) --> Frames
+Logical address （Which allow the Cpu generate the address to store memory but it is virtual memory）--> Pages
+Memory Management address （Handle Translation between Physical and logical by a hardware device like SSD）
+
+Dynamic Memory Partition （First-Fit/Best-Fit/Worse-Fit）
+
+Fixed Memory Partition/Paging System (Page Number -- Page Offset)
+
+Displacement --> The remainder of calculation （Offset）
+Logical Address/Physical Address
+Pages  = Logical   (Offset)
+Frames = Physical (Offset)
+
+Effective Access Time
+EAT = Ratio(Access+LookUp) + ^Ratio(Access*PageNumber+ Access + LookUp)
+
+Chap7
+Page Replacement algorithm
+-FIFO
+-LRU
+-Optimal
+
+Calculate Page Fault
+
+thrashing - when the page i snot found in system then need to fetch the page into secondary storage and swap one pages in RAM
+
+Chap8
+File System Structure
+-Single level
+-Two level
+-Tree level (In File Explorer now)
+
+
+Disk space Allocation Methods
+-Contiguous Allocation (Start and length)
+Sequential and Direct access
+-Linked Allocation (Start and End)
+Sequential 
+-Indexed Allocation (Pointer block)
+Direct/Random Access
+
+Free Space Memory 
+Bit vector (1/0)
+Linked List (Linked together as a line)
+Grouping (Group by group)
+Counting (Starting and length)
+
+Chap9
+I/O Modules
+Disk Scheduling (FCFS,SSTF,SCAN,LOOK)
+
+RAID
+

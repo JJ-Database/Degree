@@ -1,0 +1,6 @@
+dentist[0] = new Dentist(firstName,lastName,dob,gender,phoneNumber,address,email,hireDate,educationLevel,yearOfExperience,workHourPerWeek,monthlySalary,specializations,currentStatus,licenseNumber); 
+                    dentist [1]= new Dentist("Jane", "Smith", LocalDate.of(1985, 8, 22), 'F', "011-87654321", "456 Elm St", "janesmith@email.com",  LocalDate.of(1985, 8, 22), "Master", 5, 40, 2000, "Dental Hygienist", "Available", "M001");
+                    dentist[2] = new Dentist("John","Lim",LocalDate.of(1990, 3, 30),'M',"011-77779991","Ocean Bay Apartment","John@gmail.com",LocalDate.of(2001,2,9),"PhD",20,50,4000,"Nope","Available","M002");
+                    dentist[3] = new Dentist("Janice","Lam",LocalDate.of(1981,6,21),'M',"013-55512188","WaterBay Apartment","Janice@gmail.com",LocalDate.of(2011,7,8),"PhD",12,60,6000,"Nope","Available","M003");
+                    dentist[4] = new Dentist("David","Chau",LocalDate.of(1978, 2, 4),'M',"015-111233378","Four Season Apartment","David@gmail.com",LocalDate.of(2002,5,4),"Master",11,30,5000,"Nope","Avaialable","M004");
+                    dentist[5] = new Dentist("Roger","Choong",LocalDate.of(1981,1,1),'M',"019-5433188","Sunway Onsen Apartment","Roger@gmail.com",LocalDate.of(2000, 11, 22),"PhD",12,70,8000,"Nope","Available","M005");

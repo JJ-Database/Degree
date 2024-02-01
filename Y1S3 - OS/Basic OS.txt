@@ -1,0 +1,52 @@
+Buffer Process
+Producer will not give the release in to throw/take the buffer. Only when buffer is full then, let consumer inside to take and throw buffer.
+
+Critical Session 
+The process only executing by one process.
+One by one process will not interupt by each other. 
+
+Both allow to update and delete data.
+
+The process need to request for permission when one process is running.
+exit session
+Remainder Section:
+printf
+
+Example: Toilet Process
+
+
+How Many Bits 
+
+Physical add
+f+d
+Frame + offset size
+ 
+Logical add
+p+d
+page + offset size
+
+
+TLB - page inside the frame
+Hit Ratio - the percentage of successful is TLB
+
+20 ns - Search TLB
+100 ns - Access Memory
+
+Successfully Process
+0.8 * 120ns
+20 ns - Search TLB
+100 ns - Access Memory
+
+
+Failed Process
+0.2*220ns
+20 ns - Search TLB
+100 ns - Page Number -- Search the table in page number. Whether have available frame to load the process.
+100 ns - Access Memory
+
+3 Level Table
+EAT = 0.98 * 120 + 0.02 * 420 
+
+
+
+

@@ -1,0 +1,110 @@
+1 2 3 6 6 4 2 2 4 5 6 3 2 1 4 5 5
+
+FIFO
+4-pages = 4 Fragmentation
+     1236-4---5
+F1 = 1111144444
+F2 = -222222225
+F3 = --33333333
+F4 = ---6666666
+
+Page Fault = Inside the storage cannot find the process / Overwrite the process
+First In First Out = Overwrite the First come in.
+
+
+
+LRU - Least Recently Used 
+     1236-4
+F1 = 111114
+F2 = -22222
+F3 = --3333
+F4 = ---666
+
+
+LRU  123415
+
+F1 - 111111
+F2 - -22225
+F3 - --3333
+F4 - ---444
+
+
+Optimal 
+ 
+1 2 3 4 5 6 1 2 3 4 1 3 
+
+F1 - 1111111
+F2 - -222224
+F3 - --33333
+F4 - ---4566
+
+
+248 2654 8270 1243 1255 2133 4522 275
+
+248/1024 = 0 (Quotient)
+2654/1024 = 2
+8270/1024 = 8
+1
+1
+2
+4
+0
+
+0 2 8 1 1 2 4 0
+Optimal
+   0281--4-
+F1 00000000
+F2 -2222244
+F3 --811111
+
+Page Fault = 5(Page Fault Probability)/8(Total)
+
+
+
+120ns - memory access
+0.98 - ratio success
+25ns - lookup
+Four Level-page
+
+
+EAT = 0.98*(120+25)+0.02*(120+120+120+120+120+25)
+    = 154.6ns
+
+25m = 25,000,000ns
+100ns
+1/1000
+999/1000
+
+EAT= 999/1000*100 + 1/1000*(25 000 000 - 100)
+   =25099.8 / 1000
+   =25ms
+
+
+P = [(A+B)^2 * 50] / C + D^3 - E
+
+1st Turn
+CoBegin
+P1=A+B
+P2=D*D
+CoEnd
+
+2nd Turn
+CoBegin
+P3=p1*p1
+p4=p2*D
+CoEnd
+
+3rd Turn
+CoBegin
+P5=p3*50
+p6=p4+C
+CoEnd
+
+
+p7 = p6-E
+
+p8 = p5/p7
+
+P=p8
+
+

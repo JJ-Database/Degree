@@ -1,0 +1,21 @@
+Instance of
+equals()= refer to same object
+static - inherit to subclass
+superClass.staticName
+
+AccessModifier
+public,protected,private,default
+
+Extends - whole class inherit the data properties and methods
+Implement - whole class inherit the behaviour
+
+One supclass only allow inherit one superclass.
+One object allow to create many class included...
+
+Compare to()
+
+
+Interface - public abstract double getmethods() // public final static double
+
+
+parseDouble // parseInt

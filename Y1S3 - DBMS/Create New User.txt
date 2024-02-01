@@ -1,0 +1,13 @@
+connect sys as sysdba
+enter password: //Better same with your previous user password.
+connected.
+
+create user Joshua identified by 123456;
+users created.
+
+Grant dba to Joshua;
+Grant succeeded.
+
+connect Joshua;
+enter password:123456;
+connected.
